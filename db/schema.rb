@@ -10,11 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_12_17_011406) do
+=======
+ActiveRecord::Schema.define(version: 0) do
+>>>>>>> 656d8fc8575e1adb1bc7665f99ff92bcc53d6145
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+<<<<<<< HEAD
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
@@ -22,4 +27,6 @@ ActiveRecord::Schema.define(version: 2020_12_17_011406) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+=======
+>>>>>>> 656d8fc8575e1adb1bc7665f99ff92bcc53d6145
 end
