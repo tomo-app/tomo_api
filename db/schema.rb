@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_17_042100) do
+ActiveRecord::Schema.define(version: 2020_12_17_045748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,12 +26,12 @@ ActiveRecord::Schema.define(version: 2020_12_17_042100) do
   end
 
   create_table "blocked_pairings", force: :cascade do |t|
-    t.bigint "blocking_user_id"
-    t.bigint "blocked_user_id"
+    t.bigint "user_id"
+    t.bigint "blocked_pairing_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["blocked_user_id"], name: "index_blocked_pairings_on_blocked_user_id"
-    t.index ["blocking_user_id"], name: "index_blocked_pairings_on_blocking_user_id"
+    t.index ["blocked_pairing_id"], name: "index_blocked_pairings_on_blocked_pairing_id"
+    t.index ["user_id"], name: "index_blocked_pairings_on_user_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -45,6 +45,15 @@ ActiveRecord::Schema.define(version: 2020_12_17_042100) do
     t.boolean "cancelled?"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "pairings_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "pairing_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["pairing_id"], name: "index_pairings_users_on_pairing_id"
+    t.index ["user_id"], name: "index_pairings_users_on_user_id"
   end
 
   create_table "topic_translations", force: :cascade do |t|
@@ -73,15 +82,6 @@ ActiveRecord::Schema.define(version: 2020_12_17_042100) do
     t.index ["user_id"], name: "index_user_languages_on_user_id"
   end
 
-  create_table "user_pairings", force: :cascade do |t|
-    t.bigint "user_1_id"
-    t.bigint "user_2_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_1_id"], name: "index_user_pairings_on_user_1_id"
-    t.index ["user_2_id"], name: "index_user_pairings_on_user_2_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password"
@@ -91,12 +91,12 @@ ActiveRecord::Schema.define(version: 2020_12_17_042100) do
   end
 
   add_foreign_key "availabilities", "users", column: "users_id"
-  add_foreign_key "blocked_pairings", "users", column: "blocked_user_id"
-  add_foreign_key "blocked_pairings", "users", column: "blocking_user_id"
+  add_foreign_key "blocked_pairings", "users"
+  add_foreign_key "blocked_pairings", "users", column: "blocked_pairing_id"
+  add_foreign_key "pairings_users", "users"
+  add_foreign_key "pairings_users", "users", column: "pairing_id"
   add_foreign_key "topic_translations", "languages"
   add_foreign_key "topic_translations", "topics"
   add_foreign_key "user_languages", "languages"
   add_foreign_key "user_languages", "users"
-  add_foreign_key "user_pairings", "users", column: "user_1_id"
-  add_foreign_key "user_pairings", "users", column: "user_2_id"
 end
