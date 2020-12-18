@@ -55,6 +55,11 @@ module Mutations
 
                     expect(bob["errors"][0]["message"]). to eq("passwords must match")
                 end
+                it "A user cannot be created with a missing passwordConfirmation" do 
+                    bob = TomoApiSchema.execute(@user_sign_up, variables: { input: { params: { email: "JB@email.com", username: "Jim Bobby", password: "1234" } }})
+
+                    expect(bob["errors"][0]["message"]). to eq("passwords must match")
+                end
             end
         end
     end
