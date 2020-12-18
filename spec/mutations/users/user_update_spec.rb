@@ -26,6 +26,14 @@ module Mutations
                     expect(updated_user["data"]["userUpdate"]["user"]["username"]).to eq("updated_value")
                     expect(updated_user["data"]["userUpdate"]["user"]["email"]).to eq("updated_value@email.com")
                 end
+
+                it "A user can update their password" do
+                    old_user = User.create(email: "JB@email.com", username: "Jim Bobby", password: "1234")
+                    updated_user = TomoApiSchema.execute(@user_update, variables: { input: { params: { id: old_user.id.to_s, email: "JB@email.com", username: "Jim Bobby", password:"new_password" } }})
+                    updated_user = User.find(old_user.id)
+                    
+                    expect(old_user.password).to_not eq(updated_user.password)
+                end
             end
 
             describe "Sad Paths - " do
