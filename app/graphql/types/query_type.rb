@@ -5,5 +5,6 @@ module Types
 
     field :get_user, resolver: Queries::GetUser
     field :get_users, resolver: Queries::GetUsers
+    field :get_availabilities, resolver: Queries::GetAvailabilities
   end
 end
