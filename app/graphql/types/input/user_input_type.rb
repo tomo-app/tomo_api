@@ -8,7 +8,7 @@ module Types
         argument :password_confirmation, String, required: false
         argument :id, String, required: false
         # Availability
-        argument :user_id, String, required: false
+        argument :user_id, ID, required: false
         argument :start_date_time, String, required: false
         argument :end_date_time, String, required: false
         argument :status, Integer, required: false

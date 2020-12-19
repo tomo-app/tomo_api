@@ -6,9 +6,8 @@ module Mutations
     
         def resolve(params:)
           availability_params = Hash params
-
             begin
-              availability = Availability.create!(availability_params)
+              availability = ::Availability.create!(availability_params)
       
               { availability: availability }
             rescue ActiveRecord::RecordInvalid => e
