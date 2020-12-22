@@ -43,17 +43,11 @@ module Queries
 
                     expect(users["data"]["getUsers"].size).to eq(User.all.size)
 
-                    expect(users["data"]["getUsers"][0]).to eq({"id"=>"2", "username"=>"Jared", "email"=>"jared@email.com"})
-                    expect(users["data"]["getUsers"][1]).to eq({"id"=>"1", "username"=>"John", "email"=>"john@email.com"})
+                    expect(users["data"]["getUsers"][0]).to eq({"id"=>"1", "username"=>"John", "email"=>"john@email.com"})
+                    expect(users["data"]["getUsers"][1]).to eq({"id"=>"2", "username"=>"Jared", "email"=>"jared@email.com"})
                 end
             end
             describe "Sad Paths -" do 
-                it "cannot query a user that doesnt exist" do
-                    user = TomoApiSchema.execute(@get_user, variables: { id: 234089572034 } )
-
-                    expect(user["errors"][0]["message"]).to eq("User does not exist.")
-                end
-
                 it "cannot query a user when providing wrong parameters" do
                     user = TomoApiSchema.execute(@get_user, variables: { username: "John" } )
 
