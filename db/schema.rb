@@ -16,10 +16,10 @@ ActiveRecord::Schema.define(version: 2020_12_19_201758) do
   enable_extension "plpgsql"
 
   create_table "availabilities", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
     t.string "start_date_time"
     t.string "end_date_time"
     t.index ["user_id"], name: "index_availabilities_on_user_id"
