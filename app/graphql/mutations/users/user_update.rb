@@ -1,5 +1,6 @@
 module Mutations
-    class UserUpdate < Mutations::BaseMutation
+  module Users
+    class UserUpdate < ::Mutations::BaseMutation
       argument :params, Types::Input::UserInputType, required: false
       field :user, Types::UserType, null: false
   
@@ -8,7 +9,7 @@ module Mutations
         if user_params[:id] != nil
             begin
             user = User.find(user_params[:id])
-            user.update!(user_params)
+            user.update(user_params)
 
             { user: user }
             rescue ActiveRecord::RecordInvalid => e
@@ -21,3 +22,4 @@ module Mutations
       end
     end
   end
+end

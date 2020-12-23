@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 module Mutations
-    module Availability
+    module Availabilities
         RSpec.describe UpdateAvailability, type: :request do
             before :each do
                 @dt = DateTime.new.to_i.to_s
                 @user = User.create(email: "JB@email.com", username: "Jim Bobby", password: "1234")
-                @availability = ::Availability.create(user_id: @user.id.to_s, start_date_time: DateTime.new.to_s, end_date_time: DateTime.new.to_s)
+                @availability = Availability.create!(user_id: @user.id.to_s, start_date_time: DateTime.new.to_s, end_date_time: DateTime.new.to_s)
                 @updateAvailability = <<-GRAPHQL
                                 mutation($input: UpdateAvailabilityInput!) {
                                     updateAvailability(input: $input) {

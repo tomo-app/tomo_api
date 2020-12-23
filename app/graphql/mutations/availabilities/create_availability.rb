@@ -1,5 +1,6 @@
 module Mutations
-    class CreateAvailability < Mutations::BaseMutation
+  module Availabilities
+    class CreateAvailability < ::Mutations::BaseMutation
         argument :params, Types::Input::UserInputType, required: true
     
         field :availability, Types::AvailabilityType, null: false
@@ -7,7 +8,7 @@ module Mutations
         def resolve(params:)
           availability_params = Hash params
             begin
-              availability = ::Availability.create!(availability_params)
+              availability = Availability.create(availability_params)
       
               { availability: availability }
             rescue ActiveRecord::RecordInvalid => e
@@ -16,4 +17,5 @@ module Mutations
             end
         end
     end
+  end
 end

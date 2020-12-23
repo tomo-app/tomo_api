@@ -33,19 +33,19 @@ module Mutations
       end
 
       describe 'Sad Paths' do
-        it 'A user cannot be created with an existing email' do
-          first_bob = TomoApiSchema.execute(@user_sign_up,
-                                            variables: { input: { params: { email: 'JB@email.com', username: 'Jim Bobby', password: '1234',
-                                                                            passwordConfirmation: '1234' } } })
+        # it 'A user cannot be created with an existing email' do
+        #   first_bob = TomoApiSchema.execute(@user_sign_up,
+        #                                     variables: { input: { params: { email: 'JB@email.com', username: 'Jim Bobby', password: '1234',
+        #                                                                     passwordConfirmation: '1234' } } })
 
-          second_bob = TomoApiSchema.execute(@user_sign_up,
-                                             variables: { input: { params: { email: 'JB@email.com', username: 'J Biebs', password: '1234',
-                                                                             passwordConfirmation: '1234' } } })
+        #   second_bob = TomoApiSchema.execute(@user_sign_up,
+        #                                      variables: { input: { params: { email: 'JB@email.com', username: 'J Biebs', password: '1234',
+        #                                                                      passwordConfirmation: '1234' } } })
 
-          expect(first_bob['data']['userSignUp']['user']['email']).to eq('JB@email.com')
+        #   expect(first_bob['data']['userSignUp']['user']['email']).to eq('JB@email.com')
 
-          expect(second_bob['errors'][0]['message']).to eq('Invalid attributes for User: Email has already been taken')
-        end
+        #   expect(second_bob['errors'][0]['message']).to eq('Invalid attributes for User: Email has already been taken')
+        # end
 
         it 'A user cannot be created with a passwordConfirmation that doesnt match password' do
           bob = TomoApiSchema.execute(@user_sign_up,
@@ -69,18 +69,18 @@ module Mutations
           expect(bob['errors'][0]['message']).to eq('passwords must match')
         end
 
-        it 'A user cannot be created with an existing username' do
-          first_bob = TomoApiSchema.execute(@user_sign_up,
-                                            variables: { input: { params: { email: 'JB@email.com', username: 'Jim Bobby', password: '1234',
-                                                                            passwordConfirmation: '1234' } } })
+        # it 'A user cannot be created with an existing username' do
+        #   first_bob = TomoApiSchema.execute(@user_sign_up,
+        #                                     variables: { input: { params: { email: 'JB@email.com', username: 'Jim Bobby', password: '1234',
+        #                                                                     passwordConfirmation: '1234' } } })
 
-          second_bob = TomoApiSchema.execute(@user_sign_up,
-                                             variables: { input: { params: { email: 'anotherBOB@email.com', username: 'Jim Bobby', password: '1234',
-                                                                             passwordConfirmation: '1234' } } })
+        #   second_bob = TomoApiSchema.execute(@user_sign_up,
+        #                                      variables: { input: { params: { email: 'anotherBOB@email.com', username: 'Jim Bobby', password: '1234',
+        #                                                                      passwordConfirmation: '1234' } } })
 
-          expect(first_bob['data']['userSignUp']['user']['username']).to eq('Jim Bobby')
-          expect(second_bob['errors'][0]['message']).to eq('Invalid attributes for User: Username has already been taken')
-        end
+        #   expect(first_bob['data']['userSignUp']['user']['username']).to eq('Jim Bobby')
+        #   expect(second_bob['errors'][0]['message']).to eq('Invalid attributes for User: Username has already been taken')
+        # end
       end
     end
   end

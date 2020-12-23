@@ -1,7 +1,7 @@
 module Mutations
-    class UserSignUp < Mutations::BaseMutation
+  module Users
+    class UserSignUp < ::Mutations::BaseMutation
       argument :params, Types::Input::UserInputType, required: true
-  
       field :user, Types::UserType, null: false
   
       def resolve(params:)
@@ -9,7 +9,7 @@ module Mutations
         if user_params[:password] == user_params[:password_confirmation]
 
           begin
-            user = User.create!(user_params)
+            user = User.create(user_params)
     
             { user: user }
           rescue ActiveRecord::RecordInvalid => e
@@ -22,3 +22,4 @@ module Mutations
       end
     end
   end
+end
