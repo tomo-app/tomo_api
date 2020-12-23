@@ -1,9 +1,8 @@
 module Mutations
   module Users
     class UserUpdate < ::Mutations::BaseMutation
-      argument :params, Types::Input::UserInputType, required: false
       field :user, Types::UserType, null: false
-  # 
+   
       def resolve(params:)
         user_params = Hash params
         if user_params[:id] != nil

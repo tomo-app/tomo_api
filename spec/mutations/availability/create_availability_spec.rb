@@ -4,83 +4,21 @@ module Mutations
   module Availabilities
     RSpec.describe CreateAvailability, type: :request do
       before :each do
-        @start_date_time = DateTime.new(2021, 1, 1, 8, 30)
-        @end_date_time = DateTime.new(2021, 1, 1, 12, 30)
         @user = User.create(email: 'JB@email.com', username: 'Jim Bobby', password: '1234')
-        @availabilityCreate = <<-GRAPHQL
-                        mutation($input: CreateAvailabilityInput!) {
-                            createAvailability(input: $input) {
-                                availability {
-                                    userId
-                                    startDateTime
-                                    endDateTime
-                                    status
-                                }
-                            }
-                        }
-                    GRAPHQL
-
-
-                    query_string = <<~GQL
-   query {
-     getUsers {
-       id
-       name
-       email 
-       birthdate
-     }
-   }
-GQL
+        @start_dt = DateTime.new(2021, 1, 1, 9, 30).to_i
+        @end_dt = DateTime.new(2021, 1, 1, 12, 30).to_i
       end
 
-      describe 'Happy Paths' do
-        # it 'An availability can be created with default status of open' do
-        #   response = TomoApiSchema.execute(@availabilityCreate, variables: { input: { startDateTime: @start_date_time, endDateTime: @end_date_time, userId: @user.id }})
-
-
-
-        #   expect(response['data']['createAvailability']['availability']['id']).to_not be(nil)
-        #   expect(response['data']['createAvailability']['availability']['userId']).to eq(@user.id.to_s)
-        #   expect(response['data']['createAvailability']['availability']['startDateTime']).to eq(@dt)
-        #   expect(response['data']['createAvailability']['availability']['endDateTime']).to eq(@dt)
-        #   expect(response['data']['createAvailability']['availability']['status']).to eq('open')
-        # end
-
-        it 'An availability can be created as fulfilled' do
-
-          post '/graphql', params: { query: query(user_id: @user.id, status: 1) }
-          json = JSON.parse(response.body)
-require 'pry'; binding.pry
-
-          # response = TomoApiSchema.execute(@availabilityCreate, variables: { input: { params: { startDateTime: @start_date_time, endDateTime: @end_date_time, userId: @user.id, status: 1 } }})
-
-          expect(json['data']['createAvailability']['availability']['id']).to_not be(nil)
-          expect(json['data']['createAvailability']['availability']['userId']).to eq(@user.id.to_s)
-          expect(json['data']['createAvailability']['availability']['startDateTime']).to eq(@dt)
-          expect(json['data']['createAvailability']['availability']['endDateTime']).to eq(@dt)
-          expect(json['data']['createAvailability']['availability']['status']).to eq('fulfilled')
-        end
-
-        it 'An availability can be created as cancelled' do
-          response = TomoApiSchema.execute(@availabilityCreate, variables: { input: { params: { startDateTime: @start_date_time, endDateTime: @end_date_time, userId: @user.id, status: 2 } }})
-
-          expect(response['data']['createAvailability']['availability']['id']).to_not be(nil)
-          expect(response['data']['createAvailability']['availability']['userId']).to eq(@user.id.to_s)
-          expect(response['data']['createAvailability']['availability']['startDateTime']).to eq(@dt)
-          expect(response['data']['createAvailability']['availability']['endDateTime']).to eq(@dt)
-          expect(response['data']['createAvailability']['availability']['status']).to eq('cancelled')
-        end
-      end
-
-      def query(user_id:, status:)
+      def query(status:)
         <<~GQL
           mutation {
-            createAvailability(
-              userId: #{user_id}
-              startDateTime: 'Fri, 01 Jan 2021 08:30:00 +0000'
-              endDateTime: 'Fri, 01 Jan 2021 12:30:00 +0000'
+            createAvailability(input: { params: {
+              userId: #{@user.id}
+              startDateTime: #{@start_dt}
+              endDateTime: #{@end_dt}
               status: #{status}
-            ) {
+            }}) {
+              id
               userId
               startDateTime
               endDateTime
@@ -90,31 +28,51 @@ require 'pry'; binding.pry
         GQL
       end
 
-      # describe 'Sad Paths - ' do
-      #     it 'An availability cannot be created without userId' do
-      #         availability = TomoApiSchema.execute(@availabilityCreate, variables: { input: { params: { startDateTime: @dt, endDateTime: @dt } }})
+      it 'An availability can be created with default status of open' do
+        post '/graphql', params: { query:
+          "mutation {
+          createAvailability(input: { params: {
+            userId: #{@user.id}
+            startDateTime: 1609489800
+            endDateTime: 1609504200
+          }}) {
+            id
+            userId
+            startDateTime
+            endDateTime
+            status
+          }
+        }" }
 
-      #         expect(availability['errors'][0]['message']).to eq("Invalid attributes for Availability: User must exist")
-      #     end
+        json = JSON.parse(response.body)
+        expect(json['data']['createAvailability']['id']).to_not be(nil)
+        expect(json['data']['createAvailability']['userId']).to eq(@user.id.to_s)
+        expect(json['data']['createAvailability']['startDateTime']).to eq('1609489800')
+        expect(json['data']['createAvailability']['endDateTime']).to eq('1609504200')
+        expect(json['data']['createAvailability']['status']).to eq('open')
+      end
 
-      #     it "An availability cannot be created without a start date" do
-      #         availability = TomoApiSchema.execute(@availabilityCreate, variables: { input: { params: { endDateTime: @dt, userId: @user.id } }})
+      it 'An availability can be created as fulfilled' do
+        post '/graphql', params: { query: query(status: 1) }
+        json = JSON.parse(response.body)
 
-      #         expect(availability['errors'][0]['message']).to eq("Invalid attributes for Availability: Start date time can't be blank")
-      #     end
+        expect(json['data']['createAvailability']['id']).to_not be(nil)
+        expect(json['data']['createAvailability']['userId']).to eq(@user.id.to_s)
+        expect(json['data']['createAvailability']['startDateTime']).to eq(@start_dt.to_s)
+        expect(json['data']['createAvailability']['endDateTime']).to eq(@end_dt.to_s)
+        expect(json['data']['createAvailability']['status']).to eq('fulfilled')
+      end
 
-      #     it "An availability cannot be created without an end date" do
-      #         availability = TomoApiSchema.execute(@availabilityCreate, variables: { input: { params: { startDateTime: @dt, userId: @user.id } }})
+      it 'An availability can be created as cancelled' do
+        post '/graphql', params: { query: query(status: 2) }
+        json = JSON.parse(response.body)
 
-      #         expect(availability['errors'][0]['message']).to eq("Invalid attributes for Availability: End date time can't be blank")
-      #     end
-
-      #     it "An availability cannot be created with unknown attributes" do
-      #         availability = TomoApiSchema.execute(@availabilityCreate, variables: { input: { params: { start: @dt, end: @dt, userId: @user.id } }})
-
-      #         expect(availability['errors'][0]['message']).to eq("Variable $input of type CreateAvailabilityInput! was provided invalid value for params.start (Field is not defined on UserInput), params.end (Field is not defined on UserInput)")
-      #     end
-      # end
+        expect(json['data']['createAvailability']['id']).to_not be(nil)
+        expect(json['data']['createAvailability']['userId']).to eq(@user.id.to_s)
+        expect(json['data']['createAvailability']['startDateTime']).to eq(@start_dt.to_s)
+        expect(json['data']['createAvailability']['endDateTime']).to eq(@end_dt.to_s)
+        expect(json['data']['createAvailability']['status']).to eq('cancelled')
+      end
     end
   end
 end

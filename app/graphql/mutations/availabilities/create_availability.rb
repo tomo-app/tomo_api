@@ -1,22 +1,12 @@
 module Mutations
   module Availabilities
     class CreateAvailability < ::Mutations::BaseMutation
-      argument :user_id, ID, required: true
-      argument :start_date_time, String, required: true
-      argument :end_date_time, String, required: true
-      argument :status, Integer, required: false
-
+      argument :params, Types::Input::AvailabilityInputType, required: true
       type Types::AvailabilityType
 
-      def resolve(user_id:, start_date_time:, end_date_time:, status:)
-        # begin
-        require 'pry'; binding.pry
-          Availability.create(attributes)
-        #   { availability: availability }
-        # rescue ActiveRecord::RecordInvalid => e
-        #   GraphQL::ExecutionError.new("Invalid attributes for #{e.record.class}:"\
-        #     " #{e.record.errors.full_messages.join(', ')}")
-      # end
+      def resolve(params:)
+        availability_params = Hash params
+        Availability.create(availability_params)
       end
     end
   end

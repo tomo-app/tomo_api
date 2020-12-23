@@ -1,68 +1,111 @@
 require 'rails_helper'
 
 module Mutations
-    module Availabilities
-        RSpec.describe UpdateAvailability, type: :request do
-            before :each do
-                @dt = DateTime.new.to_i.to_s
-                @user = User.create(email: "JB@email.com", username: "Jim Bobby", password: "1234")
-                @availability = Availability.create!(user_id: @user.id.to_s, start_date_time: DateTime.new.to_s, end_date_time: DateTime.new.to_s)
-                @updateAvailability = <<-GRAPHQL
-                                mutation($input: UpdateAvailabilityInput!) {
-                                    updateAvailability(input: $input) {
-                                        availability {
-                                            id
-                                            userId
-                                            startDateTime
-                                            endDateTime
-                                            status
-                                        }
-                                    }
-                                }
-                            GRAPHQL
-            end
-            describe "Happy Paths - " do
-                it "An availability can be updated as cancelled" do
-                    updated_availability = TomoApiSchema.execute(@updateAvailability, variables: { input: { params: { id: @availability.id.to_s, startDateTime: @dt, endDateTime: @dt, status: 2 } }})
+  module Availabilities
+    RSpec.describe UpdateAvailability, type: :request do
+      before :each do
+        @user = User.create(email: 'JB@email.com', username: 'Jim Bobby', password: '1234')
+        @start_dt = DateTime.new(2021, 1, 1, 9, 30).to_i
+        @end_dt = DateTime.new(2021, 1, 1, 12, 30).to_i
+        @availability = Availability.create!(user_id: @user.id.to_s, start_date_time: @start_dt, end_date_time: @end_dt)
+      end
 
-                    expect(updated_availability['data']['updateAvailability']["availability"]["userId"]).to eq(@user.id.to_s)
-                    expect(updated_availability['data']['updateAvailability']["availability"]["startDateTime"]).to eq(@dt)
-                    expect(updated_availability['data']['updateAvailability']["availability"]["endDateTime"]).to eq(@dt)
-                    expect(updated_availability['data']['updateAvailability']["availability"]["status"]).to eq("cancelled")
-                end
+      it "An availability can be updated as cancelled" do
+        post '/graphql', params: { query: 
+          "mutation {
+            updateAvailability(input: {
+              id: #{@availability.id.to_s}
+              status: 2
+            }) {
+              id
+              userId
+              startDateTime
+              endDateTime
+              status
+            }
+          }" }
 
-                it "An availability can be updated as fulfilled" do
-                    updated_availability = TomoApiSchema.execute(@updateAvailability, variables: { input: { params: { id: @availability.id.to_s, startDateTime: @dt, endDateTime: @dt, status: 1 } }})
+        json = JSON.parse(response.body)
 
-                    expect(updated_availability['data']['updateAvailability']["availability"]["userId"]).to eq(@user.id.to_s)
-                    expect(updated_availability['data']['updateAvailability']["availability"]["startDateTime"]).to eq(@dt)
-                    expect(updated_availability['data']['updateAvailability']["availability"]["endDateTime"]).to eq(@dt)
-                    expect(updated_availability['data']['updateAvailability']["availability"]["status"]).to eq("fulfilled")
-                end
+        expect(json['data']['updateAvailability']['id']).to eq(@availability.id.to_s)
+        expect(json['data']['updateAvailability']['userId']).to eq(@user.id.to_s)
+        expect(json['data']['updateAvailability']['startDateTime']).to eq(@start_dt.to_s)
+        expect(json['data']['updateAvailability']['endDateTime']).to eq(@end_dt.to_s)
+        expect(json['data']['updateAvailability']['status']).to eq('cancelled')
+      end
 
-                it "An availability can be updated as open" do
-                    updated_availability = TomoApiSchema.execute(@updateAvailability, variables: { input: { params: { id: @availability.id.to_s, startDateTime: @dt, endDateTime: @dt, status: 0 } }})
+      it "An availability start date time can be updated" do
+        post '/graphql', params: { query: 
+          "mutation {
+            updateAvailability(input: {
+              id: #{@availability.id.to_s}
+              startDateTime: 1612355400
+            }) {
+              id
+              userId
+              startDateTime
+              endDateTime
+              status
+            }
+          }" }
 
-                    expect(updated_availability['data']['updateAvailability']["availability"]["userId"]).to eq(@user.id.to_s)
-                    expect(updated_availability['data']['updateAvailability']["availability"]["startDateTime"]).to eq(@dt)
-                    expect(updated_availability['data']['updateAvailability']["availability"]["endDateTime"]).to eq(@dt)
-                    expect(updated_availability['data']['updateAvailability']["availability"]["status"]).to eq("open")
-                end
-            end
+        json = JSON.parse(response.body)
 
-            describe "Sad Paths - " do
-                it "An availability cannot be updated without an availability id" do
-                   non_updated_availability = TomoApiSchema.execute(@updateAvailability, variables: { input: { params: { startDateTime: @dt, endDateTime: @dt, status: 4 } }})
+        expect(json['data']['updateAvailability']['id']).to eq(@availability.id.to_s)
+        expect(json['data']['updateAvailability']['userId']).to eq(@user.id.to_s)
+        expect(json['data']['updateAvailability']['startDateTime']).to eq(1612355400.to_s)
+        expect(json['data']['updateAvailability']['endDateTime']).to eq(@end_dt.to_s)
+        expect(json['data']['updateAvailability']['status']).to eq('open')
+      end
 
-                    expect(non_updated_availability['errors'][0]['message']).to eq("You must provide an id to update an availability")
-                end
+      it "An availability end date time can be updated" do
+        post '/graphql', params: { query: 
+          "mutation {
+            updateAvailability(input: {
+              id: #{@availability.id.to_s}
+              endDateTime: 1612328400
+            }) {
+              id
+              userId
+              startDateTime
+              endDateTime
+              status
+            }
+          }" }
 
-                it "An availability cannot be updated with an unknown attribute" do
-                   non_updated_availability = TomoApiSchema.execute(@updateAvailability, variables: { input: { params: { start: @dt, end: @dt, status: 4 } }})
+        json = JSON.parse(response.body)
 
-                    expect(non_updated_availability['errors'][0]['message']).to eq("Variable $input of type UpdateAvailabilityInput! was provided invalid value for params.start (Field is not defined on UserInput), params.end (Field is not defined on UserInput)")
-                end
-            end
-        end
+        expect(json['data']['updateAvailability']['id']).to eq(@availability.id.to_s)
+        expect(json['data']['updateAvailability']['userId']).to eq(@user.id.to_s)
+        expect(json['data']['updateAvailability']['startDateTime']).to eq(@start_dt.to_s)
+        expect(json['data']['updateAvailability']['endDateTime']).to eq(1612328400.to_s)
+        expect(json['data']['updateAvailability']['status']).to eq('open')
+      end
+
+      it "An availability start and end date time can be updated" do
+        post '/graphql', params: { query: 
+          "mutation {
+            updateAvailability(input: {
+              id: #{@availability.id.to_s}
+              startDateTime: 1612324800
+              endDateTime: 1612328400
+            }) {
+              id
+              userId
+              startDateTime
+              endDateTime
+              status
+            }
+          }" }
+
+        json = JSON.parse(response.body)
+
+        expect(json['data']['updateAvailability']['id']).to eq(@availability.id.to_s)
+        expect(json['data']['updateAvailability']['userId']).to eq(@user.id.to_s)
+        expect(json['data']['updateAvailability']['startDateTime']).to eq(1612324800.to_s)
+        expect(json['data']['updateAvailability']['endDateTime']).to eq(1612328400.to_s)
+        expect(json['data']['updateAvailability']['status']).to eq('open')
+      end
     end
+  end
 end

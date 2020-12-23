@@ -1,7 +1,6 @@
 module Mutations
   module Users
     class UserSignUp < ::Mutations::BaseMutation
-      argument :params, Types::Input::UserInputType, required: true
       field :user, Types::UserType, null: false
   
       def resolve(params:)
