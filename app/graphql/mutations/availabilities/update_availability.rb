@@ -1,7 +1,7 @@
 module Mutations
   module Availabilities
     class UpdateAvailability < ::Mutations::BaseMutation
-      argument :params, Types::Input::UserInputType, required: false
+      # argument :params, Types::Input::UserInputType, required: false
       field :availability, Types::AvailabilityType, null: false
   
       def resolve(params:)
