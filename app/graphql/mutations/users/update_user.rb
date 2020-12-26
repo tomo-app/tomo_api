@@ -4,8 +4,6 @@ module Mutations
       argument :id, Integer, required: true
       argument :email, String, required: false
       argument :username, String, required: false
-      argument :password, String, required: false
-      argument :password_confirmation, String, required: false
 
       type Types::UserType
 
