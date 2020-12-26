@@ -6,6 +6,7 @@ RSpec.describe User, type: :model do
     it { should have_many :blocked_pairings }
     it { should have_many :user_languages }
     it { should have_many(:languages).through(:user_languages) }
+    it { should have_many :availabilities }
   end
 
   describe 'validations' do
