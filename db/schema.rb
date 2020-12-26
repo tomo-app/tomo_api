@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_17_043607) do
+ActiveRecord::Schema.define(version: 2020_12_19_201758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "availabilities", force: :cascade do |t|
-    t.bigint "users_id", null: false
-    t.datetime "start_date_time"
-    t.datetime "end_date_time"
     t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["users_id"], name: "index_availabilities_on_users_id"
+    t.bigint "user_id", null: false
+    t.string "start_date_time"
+    t.string "end_date_time"
+    t.index ["user_id"], name: "index_availabilities_on_user_id"
   end
 
   create_table "blocked_pairings", force: :cascade do |t|
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 2020_12_17_043607) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "availabilities", "users", column: "users_id"
+  add_foreign_key "availabilities", "users"
   add_foreign_key "blocked_pairings", "users", column: "blocked_user_id"
   add_foreign_key "blocked_pairings", "users", column: "blocking_user_id"
   add_foreign_key "pairings_users", "users"
