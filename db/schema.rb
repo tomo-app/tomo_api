@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_19_201758) do
+ActiveRecord::Schema.define(version: 2020_12_17_043607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "availabilities", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "start_date_time"
+    t.bigint "end_date_time"
     t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id", null: false
-    t.string "start_date_time"
-    t.string "end_date_time"
     t.index ["user_id"], name: "index_availabilities_on_user_id"
   end
 
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2020_12_19_201758) do
   end
 
   create_table "pairings", force: :cascade do |t|
-    t.datetime "date_time"
+    t.bigint "date_time"
     t.boolean "cancelled?"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

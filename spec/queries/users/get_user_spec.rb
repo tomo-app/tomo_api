@@ -1,47 +1,53 @@
 require 'rails_helper'
 module Queries
-  RSpec.describe Types::QueryType do
+  RSpec.describe Types::QueryType, type: :request do
     before :each do
-      User.create(id: '1', email: 'john@email.com', username: 'John', password: '1234')
-      User.create(id: '2', email: 'jared@email.com', username: 'Jared', password: '1234')
-      
-      @get_user = <<-GRAPHQL
-                                  query($id: ID!) {
-                                      getUser(id: $id) {
-                                          id
-                                          username
-                                          email
-                                      }
-                                  }
-      GRAPHQL
+      @user_1 = create(:user)
+      @user_2 = create(:user, :with_availabilities)
     end
 
-    describe 'Happy Paths' do
-      it 'can get a single user by id' do
-        user = TomoApiSchema.execute(@get_user, variables: { id: 1 })
-        expect(user['data']['getUser']['id']).to eq('1')
-        expect(user['data']['getUser']['username']).to eq('John')
-        expect(user['data']['getUser']['email']).to eq('john@email.com')
-
-        user = TomoApiSchema.execute(@get_user, variables: { id: 2 })
-        expect(user['data']['getUser']['id']).to eq('2')
-        expect(user['data']['getUser']['username']).to eq('Jared')
-        expect(user['data']['getUser']['email']).to eq('jared@email.com')
-      end
+    def query(id:)
+      <<~GQL
+        query {
+          getUser(
+            id: #{id}
+          ) {
+            id
+            username
+            email
+            availabilities {
+              id
+            }
+          }
+        }
+      GQL
     end
 
-    describe 'Sad Paths' do
-      it 'cannot query a user when providing wrong parameters' do
-        user = TomoApiSchema.execute(@get_user, variables: { username: 'John' })
+    it 'can get a single user without any availabilities' do
+      post '/graphql', params: { query: query(id: @user_1.id) }
 
-        expect(user['errors'][0]['message']).to eq('Variable $id of type ID! was provided invalid value')
-      end
+      json = JSON.parse(response.body)
 
-      it 'cannot query a single user without providing id' do
-        user = TomoApiSchema.execute(@get_user)
+      expect(json['data']['getUser']['id']).to eq(@user_1.id.to_s)
+      expect(json['data']['getUser']['username']).to eq(@user_1.username)
+      expect(json['data']['getUser']['email']).to eq(@user_1.email)
+      expect(json['data']['getUser']['availabilities']).to eq([])
+    end
 
-        expect(user['errors'][0]['message']).to eq('Variable $id of type ID! was provided invalid value')
-      end
+    it 'can get a single user with some availabilities' do
+      post '/graphql', params: { query: query(id: @user_2.id) }
+
+      json = JSON.parse(response.body)
+
+      expect(json['data']['getUser']['id']).to eq(@user_2.id.to_s)
+      expect(json['data']['getUser']['username']).to eq(@user_2.username)
+      expect(json['data']['getUser']['email']).to eq(@user_2.email)
+      expect(json['data']['getUser']['availabilities'].size).to eq(3)
+      expect(json['data']['getUser']['availabilities']).to match_array(
+        @user_2.availabilities.map do |avail|
+          { 'id' => avail.id.to_s }
+        end
+      )
     end
   end
 end
