@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 2020_12_17_043607) do
 
   create_table "availabilities", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.integer "start_date_time"
-    t.integer "end_date_time"
+    t.bigint "start_date_time"
+    t.bigint "end_date_time"
     t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2020_12_17_043607) do
   end
 
   create_table "pairings", force: :cascade do |t|
-    t.integer "date_time"
+    t.bigint "date_time"
     t.boolean "cancelled?"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
