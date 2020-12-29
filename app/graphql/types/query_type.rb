@@ -6,15 +6,15 @@ module Types
       argument :id, ID, required: true
     end
 
-    field :get_availabilities, [Types::AvailabilityType], null: false, description: 'Returns all availabilities where user_id and status are as specified, and ordering them by start date(most future date first in list)' do
+    field :get_availabilities, [Types::AvailabilityType], null: false, description: 'Availabilities (sorted newest to oldest) by user_id and status' do
       argument :user_id, ID, required: true
       argument :status, String, required: true
     end
 
     def get_availabilities(user_id:, status:)
       ::Availability
-      .where(user_id: user_id, status: status)
-      .order(start_date_time: :asc)
+        .where(user_id: user_id, status: status)
+        .order(start_date_time: :asc)
     end
 
     def get_users

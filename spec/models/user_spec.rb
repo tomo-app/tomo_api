@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'relationships' do
-    it { should have_and_belong_to_many :pairings }
+    it { should have_many :pairings }
     it { should have_many :blocked_pairings }
     it { should have_many :user_languages }
     it { should have_many(:languages).through(:user_languages) }

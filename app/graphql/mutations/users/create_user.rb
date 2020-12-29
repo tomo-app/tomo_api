@@ -7,9 +7,9 @@ module Mutations
       def resolve(params:)
         user_params = Hash params
         if user_params[:password] == user_params[:password_confirmation]
-          user = User.create(user_params)
+          User.create(user_params)
         else
-          GraphQL::ExecutionError.new("passwords must match")
+          GraphQL::ExecutionError.new('passwords must match')
         end
       end
     end
