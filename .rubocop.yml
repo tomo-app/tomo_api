@@ -1,0 +1,28 @@
+require: rubocop-rails
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'coverage/**/*'
+    - 'db/**/*'
+    - 'lib/**/*'
+    - 'log/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - './*'
+    - 'app/controllers/graphql_controller.rb'
+    - 'spec/**/*'
+    - 'app/graphql/types/query_type.rb'
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/SafeNavigation:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false

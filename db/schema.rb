@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_17_043607) do
+ActiveRecord::Schema.define(version: 2020_12_17_042100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,19 +41,15 @@ ActiveRecord::Schema.define(version: 2020_12_17_043607) do
   end
 
   create_table "pairings", force: :cascade do |t|
+    t.bigint "user1_id"
+    t.bigint "user2_id"
     t.bigint "date_time"
-    t.boolean "cancelled?"
+    t.boolean "user1_cancelled?"
+    t.boolean "user2_cancelled?"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "pairings_users", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "pairing_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["pairing_id"], name: "index_pairings_users_on_pairing_id"
-    t.index ["user_id"], name: "index_pairings_users_on_user_id"
+    t.index ["user1_id"], name: "index_pairings_on_user1_id"
+    t.index ["user2_id"], name: "index_pairings_on_user2_id"
   end
 
   create_table "topic_translations", force: :cascade do |t|
@@ -93,8 +89,8 @@ ActiveRecord::Schema.define(version: 2020_12_17_043607) do
   add_foreign_key "availabilities", "users"
   add_foreign_key "blocked_pairings", "users", column: "blocked_user_id"
   add_foreign_key "blocked_pairings", "users", column: "blocking_user_id"
-  add_foreign_key "pairings_users", "users"
-  add_foreign_key "pairings_users", "users", column: "pairing_id"
+  add_foreign_key "pairings", "users", column: "user1_id"
+  add_foreign_key "pairings", "users", column: "user2_id"
   add_foreign_key "topic_translations", "languages"
   add_foreign_key "topic_translations", "topics"
   add_foreign_key "user_languages", "languages"
