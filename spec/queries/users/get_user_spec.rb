@@ -17,6 +17,12 @@ module Queries
             email
             availabilities {
               id
+              userId
+              startDateTime
+              endDateTime
+              status
+              createdAt
+              updatedAt
             }
           }
         }
@@ -43,9 +49,17 @@ module Queries
       expect(json['data']['getUser']['username']).to eq(@user_2.username)
       expect(json['data']['getUser']['email']).to eq(@user_2.email)
       expect(json['data']['getUser']['availabilities'].size).to eq(3)
-      expect(json['data']['getUser']['availabilities']).to match_array(
+      expect(json['data']['getUser']['availabilities']).to eq(
         @user_2.availabilities.map do |avail|
-          { 'id' => avail.id.to_s }
+          { 
+            'id' => avail.id.to_s,
+            'userId' => avail.user_id.to_s,
+            'startDateTime' => avail.start_date_time.to_s,
+            'endDateTime' => avail.end_date_time.to_s,
+            'status' => avail.status.to_s,
+            'createdAt' => avail.created_at.to_s,
+            'updatedAt' => avail.updated_at.to_s
+          }
         end
       )
     end
