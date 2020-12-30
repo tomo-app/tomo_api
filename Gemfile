@@ -42,6 +42,7 @@ group :development do
   gem 'spring'
   gem 'graphiql-rails'
   gem 'rubocop-rails'
+  gem 'travis'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -1,0 +1,23 @@
+language: ruby
+rbenv:
+- 2.5.3
+addons:
+  postgresql: 9.6
+script:
+- bundle exec rails db:{create,migrate} RAILS_ENV=test
+- bundle exec rspec
+deploy:
+  provider: heroku
+  api_key:
+    secure: hNN7kaMsUpHDp3AIGZJ5w2SlaX3BsNFIEoGvCqvJZsE1dRIHfKDjsZNvoe3JjAA2Wxinmrypf5RinSQzKynPEJWF9SKKzyplNQBaLLgu9eUoo0UJxXVBw5i0YA6gvap47SecaeB4dmMVskA9BmgVfe/PT263QrGI0WX1KfCeit4K3WvQI7uHeBn9KJJV/174bxiw6mMk7BYVGatnW5eCLn0Uo0B9B0MAiV0eoOD72oBDW6rY1gRB1gQ+kfjkBeJKVYCGcv9o8iRpPHUwQA9Z415kJhpKnz82+56iRXC8RA0P7HBVOIRXDi1bDivkXMH8rHH1KH/U+kE7GsqWdkkD33VdoyFLwnKqHf0czefFoTBTLl0PEck99ZdQqiQh8zwfMPtYzEOIG6Wl4qn4V2XlwGFSu859GgMrqXLH3cClKEEcCGi4SeK1zxN+viesCZBhGBnK5BoWFl5uwOJaOkDq4tH+1u1haro4nr0oH18w+14zzmpoSYWtm8JpwMRWJG2ocf9/saDK8+ESufRBq2tRhXIeAMUfl1Z9U40RwizkfblTncUggfo5Bbnb3OUosj2Kof+jFr/leWs3D3RP6X1vxEyNbZILxjr87IAlwq26HkrISKhOCdwl8ckeaZsfcdcsLQcJZ6SiWyXGzd9lCE0YZHS4B33zN+plth5J4/BvhQo=
+  app: eras-api
+  on:
+    repo: tomo-riff-raff/tomo_api
+    branch: main
+  skip_cleanup: 'true'
+notifications:
+  email:
+    on_success: never
+    on_failure: never
+cache:
+- bundler
