@@ -58,6 +58,22 @@ module Mutations
         expect(json['data']['createUserLanguage']['fluencyLevel']).to be_a(String)
         expect(json['data']['createUserLanguage']['fluencyLevel']).to eq("native")
       end
+
+      it 'A user language cannot be created with user that doesnt exist' do        
+        post '/graphql', params: { query: query(user_id: "234", language_id: @language.id, fluency_level: 0) }
+        
+        json = JSON.parse(response.body)
+        
+        expect(json['errors'][0]['message']).to eq("Cannot return null for non-nullable field UserLanguage.id")
+      end
+
+      it 'A user language cannot be created with language that doesnt exist' do        
+        post '/graphql', params: { query: query(user_id: @user.id, language_id: "2387", fluency_level: 0) }
+        
+        json = JSON.parse(response.body)
+
+        expect(json['errors'][0]['message']).to eq("Cannot return null for non-nullable field UserLanguage.id")
+      end
     end
   end
 end
