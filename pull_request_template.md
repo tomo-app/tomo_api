@@ -12,6 +12,6 @@
 * Closes #
 
 ### Tracking Consistency:
-- [] Added appropriate labels
-- [] Addressed any rubocop violations
-- [] Added comments on my pull request, particularly in hard-to-understand areas
+- [ ] Added appropriate labels
+- [ ] Addressed any rubocop violations
+- [ ] Added comments on my pull request, particularly in hard-to-understand areas
