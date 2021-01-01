@@ -4,5 +4,6 @@ module Types
     field :update_user, mutation: Mutations::Users::UpdateUser
     field :create_availability, mutation: Mutations::Availabilities::CreateAvailability
     field :update_availability, mutation: Mutations::Availabilities::UpdateAvailability
+    field :create_user_language, mutation: Mutations::UserLanguages::CreateUserLanguage
   end
 end
