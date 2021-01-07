@@ -1,0 +1,22 @@
+language: ruby
+rbenv:
+- 2.7.2
+services:
+  - postgresql
+script:
+- bundle exec rails db:{create,migrate} RAILS_ENV=test
+- bundle exec rspec
+deploy:
+  provider: heroku
+  api_key:
+    secure: vmguKSsna6DeUbiU3r9rjwapY3DmxGxOMh3f4OW2hPhBr9BmiGq3UUXKGRc+0HhRGh+c4FzE/pplHYd/jA8WmAp342cNMIcUzYL3/kSJldVU4KjOH7GLR+d6SZrAZ0b9VU4fJ2Zwoy30rjFFFR2Dh3jAW5DyCnDZ7J3CZZzxJ+orOAlQJ1R32XygYzg4al55kbzee6taW1kUDkFYS+lbIMqKgc8jHayyM4wo6Yt3YmgsXiTOzJ8bvpuQISkmRN1oJ9aWngVOL3/WwTVKxe+XozalTK8lezNviBsaE3xQcenPHXfewFzSUmQHvv1aodiZm7yn8iMD+QZE0rDqU9ziugP2p/Qb90WBMB8Ad1nT8Z485plqM+1f7dWdzhX8aI6SuzRLTFd0sQHwAyYWJblp+fay3f3N8SU71B8wKR7cL+Qr02JUYZMZw1ZEZMZI+1HZar7UibiucFSE2Txdsge/U5xq16vp/pZ3YoPwWM4SnJLErpDY4ylDI8h6xdTuiZfoiNNMIt5zaetI7eiSol68Iq+OU0Bo4IXdi2UOjv9ANQBvkv2Vw+1kFl2hKVRe1AzQFzOCwsyUP9nYsHA2pE/Xzabint15pI0cbzCVall0ddDJ0z4VnDEUjZj5gnwFQCFaSthJPsCTOWUp65ilhdWW5HHitMkiDibjfqU8L7MDiw0=
+  app: tomo-api
+  on:
+    repo: tomo-riff-raff/tomo_api
+    branch: main
+notifications:
+  email:
+    on_success: never
+    on_failure: never
+cache:
+- bundler
