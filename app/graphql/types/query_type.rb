@@ -1,6 +1,6 @@
 module Types
   class QueryType < Types::BaseObject
-    field :get_languages, [Types::LanguageType], null: false, description: 'Availabilities (sorted newest to oldest) by user_id and status'
+    field :get_languages, [Types::LanguageType], null: false, description: 'Reurns a list of all languages'
 
     def get_languages
       Language.all
