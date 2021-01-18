@@ -22,12 +22,12 @@ module Mutations
 
       def update_target(target, user)
         user_language = user.user_languages.find_by(fluency_level: 'target')
-        user_language.update(language_id: target)
+        user_language.update(language_id: target) if user_language 
       end
 
       def update_native(native, user)
         user_language = user.user_languages.find_by(fluency_level: 'native')
-        user_language.update(language_id: native)
+        user_language.update(language_id: native) if user_language 
       end
     end
   end
