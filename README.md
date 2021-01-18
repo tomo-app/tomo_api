@@ -107,10 +107,23 @@ mutation {
 ```
 ### Availabilities
 - createAvailability
-- default status is 'open'. Pass a `status: "1"` to create and Availability as 'fulfilled'.
+- default status is 'open'. 
 ```
 mutation {
   createAvailability(input: {params: {userId: "2", startDateTime: "1609493400", endDateTime: "1609504200"}}) {
+    id
+    userId
+    startDateTime
+    endDateTime
+    status
+  }
+}
+```
+- updateAvailability
+- `status: "1"`: 'fulfilled', `status: "2"`: 'open
+```
+mutation {
+  updateAvailability(input: {id: "2", startDateTime: 1612324800, endDateTime: 1612328400, status: 1}) {
     id
     userId
     startDateTime
