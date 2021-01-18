@@ -4,7 +4,8 @@
     - [Installation](#testing)
   - [Endpoint](#endpoint)
   - [API Calls](#api-calls)
-    - [User](#user)
+    - [Users](#users)
+    - [Availabilities](#availabilities)
 ## Setup
 ### Prerequisites
 - Ruby 2.7.2
@@ -23,7 +24,7 @@ rails db:migrate
 ```POST https://feed-the-people-api.herokuapp.com/graphql```
 
 ## API Calls
-### User
+### Users
 - createUser
 ```
 mutation {
@@ -101,6 +102,20 @@ mutation {
         createdAt
         updatedAt
     }
+  }
+}
+```
+### Availabilities
+- createAvailability
+- default status is 'open'. Pass a `status: "1"` to create and Availability as 'fulfilled'.
+```
+mutation {
+  createAvailability(input: {params: {userId: "2", startDateTime: "1609493400", endDateTime: "1609504200"}}) {
+    id
+    userId
+    startDateTime
+    endDateTime
+    status
   }
 }
 ```
