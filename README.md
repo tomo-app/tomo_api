@@ -37,8 +37,7 @@ mutation {
 }
 ```
 - updateUser
-- pass a `nativeId` or `targetId` to create a target or native language for a user
-```
+- pass a `nativeId` or `targetId` (languageId) to update a user's target or native language
 mutation {
   updateUser(input: {id: "3", username: "Ted", email: "Ted@email.com", targetId: "2", nativeId: "1"}) {
     id
