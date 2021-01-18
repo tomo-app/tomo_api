@@ -26,7 +26,7 @@ rails db:migrate
 
 ## API Calls
 ### Users
-- createUser
+#### createUser
 ```
 mutation {
   createUser(input: {params: {email: "jim@email.com", username: "jim", password: "1234", passwordConfirmation: "1234"}}) {
@@ -36,7 +36,7 @@ mutation {
   }
 }
 ```
-- updateUser
+#### updateUser
 - pass a `nativeId` or `targetId` (languageId) to update a user's target or native language
 ```
 mutation {
@@ -53,7 +53,7 @@ mutation {
   }
 }
 ```
-- getUser
+#### getUser
 ```
 {
   getUser(id: "1") {
@@ -80,7 +80,7 @@ mutation {
   }
 }
 ```
-- getUsers
+#### getUsers
 ```
 {
   getUsers {
@@ -108,7 +108,7 @@ mutation {
 }
 ```
 ### Availabilities
-- createAvailability
+#### createAvailability
 - default status is 'open'. 
 ```
 mutation {
@@ -121,7 +121,7 @@ mutation {
   }
 }
 ```
-- updateAvailability
+#### updateAvailability
 - `status: "1"`: 'fulfilled', `status: "2"`: 'open'
 ```
 mutation {
@@ -135,7 +135,7 @@ mutation {
 }
 ```
 ### UserLanguages
-- createUserLanguage
+#### createUserLanguage
 ```
 mutation {
   createUserLanguage(input: {params: {languageId: "2", userId: "1", fluencyLevel: "0"}}) {
