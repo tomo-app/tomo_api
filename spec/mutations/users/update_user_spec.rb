@@ -42,8 +42,8 @@ module Mutations
             mutation {
               updateUser(input: {
                 id: #{@existing_user.id}
-                targetId: "#{@target.id}"
-                nativeId: "#{@native.id}"
+                targetLanguageId: "#{@target.id}"
+                nativeLanguageId: "#{@native.id}"
               }) {
                 id
                 userLanguages{
@@ -79,8 +79,8 @@ module Mutations
             mutation {
               updateUser(input: {
                 id: #{@user_with_no_languages.id}
-                targetId: "#{@target.id}"
-                nativeId: "#{@native.id}"
+                targetLanguageId: "#{@target.id}"
+                nativeLanguageId: "#{@native.id}"
               }) {
                 id
                 userLanguages{
