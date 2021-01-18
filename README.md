@@ -1,5 +1,10 @@
 # TOMO
-
+  - [Setup](#setup)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#testing)
+  - [Endpoint](#endpoint)
+  - [API Calls](#api-calls)
+    - [User](#user)
 ## Setup
 ### Prerequisites
 - Ruby 2.7.2
@@ -12,7 +17,12 @@ bundle install
 rails db:create
 rails db:migrate
 ```
-## Mutations
+
+## Endpoint
+
+```POST https://feed-the-people-api.herokuapp.com/graphql```
+
+## API Calls
 ### User
 - createUser
 ```
@@ -39,6 +49,4 @@ mutation {
     }
   }
 }
-
 ```
-## Queries
