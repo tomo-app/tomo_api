@@ -50,3 +50,57 @@ mutation {
   }
 }
 ```
+- getUser
+```
+{
+  getUser(id: "1") {
+    id
+    username
+    email
+    availabilities {
+      id
+      userId
+      startDateTime
+      endDateTime
+      status
+      createdAt
+      updatedAt
+    }
+    userLanguages {
+        id
+        userId
+        languageId
+        fluencyLevel
+        createdAt
+        updatedAt
+    }
+  }
+}
+```
+- getUsers
+```
+{
+  getUsers {
+    id
+    username
+    email
+    availabilities {
+      id
+      userId
+      startDateTime
+      endDateTime
+      status
+      createdAt
+      updatedAt
+    }
+    userLanguages {
+        id
+        userId
+        languageId
+        fluencyLevel
+        createdAt
+        updatedAt
+    }
+  }
+}
+```
