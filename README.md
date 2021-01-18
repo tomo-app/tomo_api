@@ -6,6 +6,7 @@
   - [API Calls](#api-calls)
     - [Users](#users)
     - [Availabilities](#availabilities)
+    - [UserLanguages](#userlanguages)
 ## Setup
 ### Prerequisites
 - Ruby 2.7.2
@@ -36,6 +37,7 @@ mutation {
 }
 ```
 - updateUser
+- pass a `nativeId` or `targetId` to create a target or native language for a user
 ```
 mutation {
   updateUser(input: {id: "3", username: "Ted", email: "Ted@email.com", targetId: "2", nativeId: "1"}) {
@@ -120,7 +122,7 @@ mutation {
 }
 ```
 - updateAvailability
-- `status: "1"`: 'fulfilled', `status: "2"`: 'open
+- `status: "1"`: 'fulfilled', `status: "2"`: 'open'
 ```
 mutation {
   updateAvailability(input: {id: "2", startDateTime: 1612324800, endDateTime: 1612328400, status: 1}) {
@@ -129,6 +131,18 @@ mutation {
     startDateTime
     endDateTime
     status
+  }
+}
+```
+### UserLanguages
+- createUserLanguage
+```
+mutation {
+  createUserLanguage(input: {params: {languageId: "2", userId: "1", fluencyLevel: "0"}}) {
+    id
+    languageId
+    userId
+    fluencyLevel
   }
 }
 ```
