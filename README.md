@@ -14,7 +14,7 @@ rails db:migrate
 ```
 ## Mutations
 ### User
-#### createUser
+- createUser
 ```
 mutation {
   createUser(input: {params: {email: "jim@email.com", username: "jim", password: "1234", passwordConfirmation: "1234"}}) {
@@ -24,7 +24,7 @@ mutation {
   }
 }
 ```
-#### updateUser
+- updateUser
 ```
 mutation {
   updateUser(input: {id: "3", username: "Ted", email: "Ted@email.com", targetId: "2", nativeId: "1"}) {
