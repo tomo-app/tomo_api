@@ -22,7 +22,7 @@ rails db:migrate
 
 ## Endpoint
 
-```POST https://feed-the-people-api.herokuapp.com/graphql```
+```POST https://tomo-api.herokuapp.com/graphql```
 
 ## API Calls
 ### Users
@@ -40,7 +40,7 @@ mutation {
 - pass a `nativeId` or `targetId` (languageId) to update a user's target or native language
 ```
 mutation {
-  updateUser(input: {id: "3", username: "Ted", email: "Ted@email.com", targetId: "2", nativeId: "1"}) {
+  updateUser(input: {id: "3", username: "Ted", email: "Ted@email.com", targetLanguageId: "2", nativeLanguageId: "1"}) {
     id
     username
     email
