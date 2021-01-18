@@ -7,6 +7,8 @@ module Mutations
         @existing_user = User.create!(email: 'JB@email.com', username: 'Jim', password: '1234')
         @target = create :language
         @native = create :language
+        create(:user_language, :target, user: @existing_user, language: @target)
+        create(:user_language, :native, user: @existing_user, language: @native)
       end
 
       it "A user can be updated" do
@@ -33,7 +35,7 @@ module Mutations
         expect(json['data']['updateUser']['username']).to eq('newme')
       end
 
-      it "A user can add a target and native language" do
+      it "A user can update their target and native language" do
         query = <<~GQL
           mutation {
             updateUser(input: {
