@@ -20,15 +20,15 @@ module Types
     field :get_user, Types::UserType, null: false, description: 'Returns a single user by id' do
       argument :id, ID, required: true
     end
-
-    def get_users
-      User.all
+    
+    def get_user(id:)
+      User.find(id)
     end
 
     field :get_users, [Types::UserType], null: false, description: 'Returns a list of users'
 
-    def get_user(id:)
-      User.find(id)
+    def get_users
+      User.all
     end
   end
 end
