@@ -21,14 +21,14 @@ module Queries
     it 'can get all languages' do
       post '/graphql', params: { query: query }
 
-      json = JSON.parse(response.body)
+      json = JSON.parse(response.body, symbolize_names: true)
 
-      expect(json['data']['getLanguages'][0]['id']).to eq(@language_one.id.to_s)
-      expect(json['data']['getLanguages'][0]['name']).to eq(@language_one.name)
-      expect(json['data']['getLanguages'][1]['id']).to eq(@language_two.id.to_s)
-      expect(json['data']['getLanguages'][1]['name']).to eq(@language_two.name)
-      expect(json['data']['getLanguages'][2]['id']).to eq(@language_three.id.to_s)
-      expect(json['data']['getLanguages'][2]['name']).to eq(@language_three.name)
+      expect(json[:data][:getLanguages][0][:id]).to eq(@language_one.id.to_s)
+      expect(json[:data][:getLanguages][0][:name]).to eq(@language_one.name)
+      expect(json[:data][:getLanguages][1][:id]).to eq(@language_two.id.to_s)
+      expect(json[:data][:getLanguages][1][:name]).to eq(@language_two.name)
+      expect(json[:data][:getLanguages][2][:id]).to eq(@language_three.id.to_s)
+      expect(json[:data][:getLanguages][2][:name]).to eq(@language_three.name)
     end
   end
 end
