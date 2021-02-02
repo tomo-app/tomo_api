@@ -4,7 +4,7 @@ module Mutations
   module Users
     RSpec.describe UpdateUser, type: :request do
       before :each do
-        @existing_user = User.create!(email: 'JB@email.com', username: 'Jim', password: '1234')
+        @existing_user = create(:user)
         @user_with_no_languages = create :user
         @target = create :language
         @native = create :language
