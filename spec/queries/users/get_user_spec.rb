@@ -43,7 +43,7 @@ module Queries
 
     describe 'user with availabilities' do
       it 'can get a single user without any availabilities' do
-        post '/graphql', params: { query: query(id: @user_1.id) }
+        post graphql_path, params: { query: query(id: @user_1.id) }
 
         json = JSON.parse(response.body, symbolize_names: true)
 
@@ -54,7 +54,7 @@ module Queries
       end
 
       it 'can get a single user with some availabilities' do
-        post '/graphql', params: { query: query(id: @user_2.id) }
+        post graphql_path, params: { query: query(id: @user_2.id) }
 
         json = JSON.parse(response.body, symbolize_names: true)
 
@@ -80,7 +80,7 @@ module Queries
 
     describe 'user with user languages' do
       it 'can get a single user without any user languages' do
-        post '/graphql', params: { query: query(id: @user_2.id) }
+        post graphql_path, params: { query: query(id: @user_2.id) }
 
         json = JSON.parse(response.body, symbolize_names: true)
 
@@ -91,7 +91,7 @@ module Queries
       end
 
       it 'can get a single user with some user_languages' do
-        post '/graphql', params: { query: query(id: @user_1.id) }
+        post graphql_path, params: { query: query(id: @user_1.id) }
 
         json = JSON.parse(response.body, symbolize_names: true)
 
