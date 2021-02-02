@@ -28,7 +28,7 @@ module Mutations
             }
           GQL
 
-          post '/graphql', params: { query: query }
+          post graphql_path, params: { query: query }
 
           json = JSON.parse(response.body, symbolize_names: true)
 
@@ -56,7 +56,7 @@ module Mutations
             }
           GQL
 
-          post '/graphql', params: { query: query }
+          post graphql_path, params: { query: query }
 
           json = JSON.parse(response.body, symbolize_names: true)
 
@@ -93,7 +93,7 @@ module Mutations
             }
           GQL
 
-          post '/graphql', params: { query: query }
+          post graphql_path, params: { query: query }
 
           json = JSON.parse(response.body, symbolize_names: true)
 
