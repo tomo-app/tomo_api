@@ -6,7 +6,10 @@ module Mutations
 
       def resolve(params:)
         availability_params = Hash params
-        Availability.create(availability_params)
+        availability = Availability.create(availability_params)
+        open_slot = availability.find_availabilities_to_pair
+        Pairing.create_pairing(availability, open_slot) if open_slot != nil
+        availability
       end
     end
   end
