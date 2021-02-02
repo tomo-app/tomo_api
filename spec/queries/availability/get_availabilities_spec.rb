@@ -14,7 +14,33 @@ RSpec.describe Types::QueryType, type: :request do
       @cancelled = Availability.create(user: @user, start_date_time: @start_dt_1, end_date_time: @end_dt_1, status: 2 )
     end
 
-    it "can query user's availabilities by status open and order by date asc" do
+    it "can query all user's availabilities" do
+      query = <<~GQL
+        query {
+          getAvailabilities(
+            userId: "#{@user.id}"
+          ) {
+            userId
+            id
+            startDateTime
+            endDateTime
+            status
+            createdAt
+            updatedAt
+          }
+        }
+      GQL
+
+      post '/graphql', params: { query: query }
+
+      result = JSON.parse(response.body, symbolize_names: true)
+      expect(result[:data][:getAvailabilities].size).to eq(4)
+      result[:data][:getAvailabilities].each do |avail|
+        expect(avail[:userId]).to eq(@user.id.to_s)
+      end
+    end
+
+    it "can query user's availabilities by status open" do
       post graphql_path, params: { query: query(user_id: @user.id, status: 'open') }
 
       result = JSON.parse(response.body, symbolize_names: true)

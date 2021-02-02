@@ -6,15 +6,19 @@ module Types
       Language.all
     end
     
-    field :get_availabilities, [Types::AvailabilityType], null: false, description: 'Availabilities (sorted newest to oldest) by user_id and status' do
+    field :get_availabilities, [Types::AvailabilityType], null: false, description: 'Availabilities (sorted newest to oldest) by user_id' do
       argument :user_id, ID, required: true
-      argument :status, String, required: true
+      argument :status, String, required: false
     end
 
-    def get_availabilities(user_id:, status:)
-      ::Availability
-        .where(user_id: user_id, status: status)
+    def get_availabilities(params)
+      if params[:status]
+        Availability.where(user_id: params[:user_id], status: params[:status])
         .order(start_date_time: :asc)
+      else
+        Availability.where(user_id: params[:user_id])
+        .order(start_date_time: :asc)
+      end
     end
 
     field :get_user, Types::UserType, null: false, description: 'Returns a single user by id' do
