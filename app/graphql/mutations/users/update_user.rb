@@ -15,19 +15,9 @@ module Mutations
         target_id = arguments.delete(:target_language_id)
         native_id = arguments.delete(:native_language_id)
         user.update(arguments)
-        update_target(target_id, user) if target_id
-        update_native(native_id, user) if native_id
+        user.update_target(target_id, user) if target_id
+        user.update_native(native_id, user) if native_id
         user
-      end
-
-      def update_target(language_id, user)
-        user_language = user.user_languages.find_by(fluency_level: 'target')
-        user_language.update(language_id: language_id) if user_language
-      end
-
-      def update_native(language_id, user)
-        user_language = user.user_languages.find_by(fluency_level: 'native')
-        user_language.update(language_id: language_id) if user_language
       end
     end
   end
