@@ -13,4 +13,8 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, presence: true
   validates :password_digest, presence: true
   validates :username, uniqueness: true, presence: true
+
+  def blocked_ids
+    blocked_pairings.map { |blocked| blocked.blocked_user.id }
+  end
 end
