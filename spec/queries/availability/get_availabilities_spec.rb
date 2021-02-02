@@ -31,7 +31,7 @@ RSpec.describe Types::QueryType, type: :request do
         }
       GQL
 
-      post '/graphql', params: { query: query }
+      post graphql_path, params: { query: query }
 
       result = JSON.parse(response.body, symbolize_names: true)
       expect(result[:data][:getAvailabilities].size).to eq(4)
