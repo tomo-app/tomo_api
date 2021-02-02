@@ -13,4 +13,14 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, presence: true
   validates :password_digest, presence: true
   validates :username, uniqueness: true, presence: true
+
+  def update_target(language_id, user)
+    user_language = user.user_languages.find_by(fluency_level: 'target')
+    user_language.update(language_id: language_id) if user_language
+  end
+
+  def update_native(language_id, user)
+    user_language = user.user_languages.find_by(fluency_level: 'native')
+    user_language.update(language_id: language_id) if user_language
+  end
 end
