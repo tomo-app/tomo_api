@@ -8,7 +8,7 @@ module Mutations
         availability_params = Hash params
         availability = Availability.create(availability_params)
         open_slot = availability.find_availabilities_to_pair
-        Pairing.create_pairing(availability, open_slot) if open_slot != nil
+        Pairing.create_pairing(availability, open_slot) unless open_slot.nil?
         availability
       end
     end
