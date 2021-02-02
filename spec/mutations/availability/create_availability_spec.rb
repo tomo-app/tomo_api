@@ -113,7 +113,7 @@ module Mutations
         expect(json[:data][:createAvailability][:userId]).to eq(japanese_learning_english.id.to_s)
         expect(json[:data][:createAvailability][:startDateTime]).to eq(start_dt.to_s)
         expect(json[:data][:createAvailability][:endDateTime]).to eq(end_dt.to_s)
-        expect(json[:data][:createAvailability][:status]).to eq('open')
+        expect(json[:data][:createAvailability][:status]).to eq('fulfilled')
         
         expect(Pairing.all.size).to eq(1)
       end
