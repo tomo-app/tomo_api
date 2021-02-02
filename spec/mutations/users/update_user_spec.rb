@@ -30,11 +30,11 @@ module Mutations
 
           post '/graphql', params: { query: query }
 
-          json = JSON.parse(response.body)
+          json = JSON.parse(response.body, symbolize_names: true)
 
-          expect(json['data']['updateUser']['id']).to_not eq(nil)
-          expect(json['data']['updateUser']['email']).to eq('newme@email.com')
-          expect(json['data']['updateUser']['username']).to eq('newme')
+          expect(json[:data][:updateUser][:id]).to_not eq(nil)
+          expect(json[:data][:updateUser][:email]).to eq('newme@email.com')
+          expect(json[:data][:updateUser][:username]).to eq('newme')
         end
 
         it "A user can update their target and native language" do
@@ -58,18 +58,18 @@ module Mutations
 
           post '/graphql', params: { query: query }
 
-          json = JSON.parse(response.body)
+          json = JSON.parse(response.body, symbolize_names: true)
 
-          expect(json['data']['updateUser']['id']).to_not eq(nil)
-          expect(json['data']['updateUser']['userLanguages'][0]['id']).to_not eq(nil)
-          expect(json['data']['updateUser']['userLanguages'][0]['userId']).to eq(@existing_user.id.to_s)
-          expect(json['data']['updateUser']['userLanguages'][0]['languageId']).to eq(@target.id.to_s)
-          expect(json['data']['updateUser']['userLanguages'][0]['fluencyLevel']).to eq("target")
+          expect(json[:data][:updateUser][:id]).to_not eq(nil)
+          expect(json[:data][:updateUser][:userLanguages][0][:id]).to_not eq(nil)
+          expect(json[:data][:updateUser][:userLanguages][0][:userId]).to eq(@existing_user.id.to_s)
+          expect(json[:data][:updateUser][:userLanguages][0][:languageId]).to eq(@target.id.to_s)
+          expect(json[:data][:updateUser][:userLanguages][0][:fluencyLevel]).to eq("target")
 
-          expect(json['data']['updateUser']['userLanguages'][1]['id']).to_not eq(nil)
-          expect(json['data']['updateUser']['userLanguages'][1]['userId']).to eq(@existing_user.id.to_s)
-          expect(json['data']['updateUser']['userLanguages'][1]['languageId']).to eq(@native.id.to_s)
-          expect(json['data']['updateUser']['userLanguages'][1]['fluencyLevel']).to eq("native")
+          expect(json[:data][:updateUser][:userLanguages][1][:id]).to_not eq(nil)
+          expect(json[:data][:updateUser][:userLanguages][1][:userId]).to eq(@existing_user.id.to_s)
+          expect(json[:data][:updateUser][:userLanguages][1][:languageId]).to eq(@native.id.to_s)
+          expect(json[:data][:updateUser][:userLanguages][1][:fluencyLevel]).to eq("native")
         end
       end
 
@@ -95,9 +95,9 @@ module Mutations
 
           post '/graphql', params: { query: query }
 
-          json = JSON.parse(response.body)
+          json = JSON.parse(response.body, symbolize_names: true)
 
-          expect(json['data']['updateUser']['userLanguages']).to eq([])
+          expect(json[:data][:updateUser][:userLanguages]).to eq([])
         end
       end
     end
