@@ -9,27 +9,8 @@ module Mutations
         @end_dt = DateTime.new(2021, 1, 1, 12, 30).to_i
       end
 
-      def query(status:)
-        <<~GQL
-          mutation {
-            createAvailability(input: { params: {
-              userId: #{@user.id}
-              startDateTime: #{@start_dt}
-              endDateTime: #{@end_dt}
-              status: #{status}
-            }}) {
-              id
-              userId
-              startDateTime
-              endDateTime
-              status
-            }
-          }
-        GQL
-      end
-
       it 'An availability can be created with default status of open' do
-        post '/graphql', params: { query:
+        post graphql_path, params: { query:
           "mutation {
           createAvailability(input: { params: {
             userId: #{@user.id}
@@ -53,7 +34,7 @@ module Mutations
       end
 
       it 'An availability can be created as fulfilled' do
-        post '/graphql', params: { query: query(status: 1) }
+        post graphql_path, params: { query: query(status: 1) }
         json = JSON.parse(response.body)
 
         expect(json['data']['createAvailability']['id']).to_not be(nil)
@@ -64,7 +45,7 @@ module Mutations
       end
 
       it 'An availability can be created as cancelled' do
-        post '/graphql', params: { query: query(status: 2) }
+        post graphql_path, params: { query: query(status: 2) }
         json = JSON.parse(response.body)
 
         expect(json['data']['createAvailability']['id']).to_not be(nil)
@@ -72,6 +53,25 @@ module Mutations
         expect(json['data']['createAvailability']['startDateTime']).to eq(@start_dt.to_s)
         expect(json['data']['createAvailability']['endDateTime']).to eq(@end_dt.to_s)
         expect(json['data']['createAvailability']['status']).to eq('cancelled')
+      end
+
+      def query(status:)
+        <<~GQL
+          mutation {
+            createAvailability(input: { params: {
+              userId: #{@user.id}
+              startDateTime: #{@start_dt}
+              endDateTime: #{@end_dt}
+              status: #{status}
+            }}) {
+              id
+              userId
+              startDateTime
+              endDateTime
+              status
+            }
+          }
+        GQL
       end
     end
   end

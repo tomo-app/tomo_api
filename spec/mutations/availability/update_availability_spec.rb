@@ -11,7 +11,7 @@ module Mutations
       end
 
       it "An availability can be updated as cancelled" do
-        post '/graphql', params: { query:
+        post graphql_path, params: { query:
           "mutation {
             updateAvailability(input: {
               id: #{@availability.id.to_s}
@@ -35,7 +35,7 @@ module Mutations
       end
 
       it "An availability start date time can be updated" do
-        post '/graphql', params: { query:
+        post graphql_path, params: { query:
           "mutation {
             updateAvailability(input: {
               id: #{@availability.id.to_s}
@@ -59,7 +59,7 @@ module Mutations
       end
 
       it "An availability end date time can be updated" do
-        post '/graphql', params: { query: 
+        post graphql_path, params: { query: 
           "mutation {
             updateAvailability(input: {
               id: #{@availability.id.to_s}
@@ -83,7 +83,7 @@ module Mutations
       end
 
       it "An availability start and end date time can be updated" do
-        post '/graphql', params: { query: 
+        post graphql_path, params: { query: 
           "mutation {
             updateAvailability(input: {
               id: #{@availability.id.to_s}

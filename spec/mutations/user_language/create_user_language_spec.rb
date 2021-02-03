@@ -8,25 +8,8 @@ module Mutations
         @language = create :language
       end
 
-      def query(language_id:, user_id:, fluency_level:)
-        <<~GQL
-          mutation {
-            createUserLanguage(input: { params: {
-              languageId: "#{language_id}"
-              userId: "#{user_id}"
-              fluencyLevel: "#{fluency_level}"
-            }}) {
-              id
-              languageId
-              userId
-              fluencyLevel
-            }
-          }
-        GQL
-      end
-
       it 'A user language can be created with fluency level of target' do
-        post '/graphql', params: { query: query(user_id: @user.id, language_id: @language.id, fluency_level: 1) }
+        post graphql_path, params: { query: query(user_id: @user.id, language_id: @language.id, fluency_level: 1) }
         
         json = JSON.parse(response.body)
 
@@ -43,7 +26,7 @@ module Mutations
       end
 
       it 'A user language can be created with fluency level of native' do        
-        post '/graphql', params: { query: query(user_id: @user.id, language_id: @language.id, fluency_level: 0) }
+        post graphql_path, params: { query: query(user_id: @user.id, language_id: @language.id, fluency_level: 0) }
         
         json = JSON.parse(response.body)
 
@@ -60,7 +43,7 @@ module Mutations
       end
 
       it 'A user language cannot be created with user that doesnt exist' do        
-        post '/graphql', params: { query: query(user_id: "234", language_id: @language.id, fluency_level: 0) }
+        post graphql_path, params: { query: query(user_id: "234", language_id: @language.id, fluency_level: 0) }
         
         json = JSON.parse(response.body)
         
@@ -68,11 +51,28 @@ module Mutations
       end
 
       it 'A user language cannot be created with language that doesnt exist' do        
-        post '/graphql', params: { query: query(user_id: @user.id, language_id: "2387", fluency_level: 0) }
+        post graphql_path, params: { query: query(user_id: @user.id, language_id: "2387", fluency_level: 0) }
         
         json = JSON.parse(response.body)
 
         expect(json['errors'][0]['message']).to eq("Cannot return null for non-nullable field UserLanguage.id")
+      end
+
+      def query(language_id:, user_id:, fluency_level:)
+        <<~GQL
+          mutation {
+            createUserLanguage(input: { params: {
+              languageId: "#{language_id}"
+              userId: "#{user_id}"
+              fluencyLevel: "#{fluency_level}"
+            }}) {
+              id
+              languageId
+              userId
+              fluencyLevel
+            }
+          }
+        GQL
       end
     end
   end
