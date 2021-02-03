@@ -11,7 +11,7 @@ module Mutations
       end
 
       it "An availability can be updated as cancelled" do
-        post '/graphql', params: { query:
+        post graphql_path, params: { query:
           "mutation {
             updateAvailability(input: {
               id: #{@availability.id.to_s}
@@ -25,17 +25,18 @@ module Mutations
             }
           }" }
 
-        json = JSON.parse(response.body)
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        avail = parsed[:data][:updateAvailability]
 
-        expect(json['data']['updateAvailability']['id']).to eq(@availability.id.to_s)
-        expect(json['data']['updateAvailability']['userId']).to eq(@user.id.to_s)
-        expect(json['data']['updateAvailability']['startDateTime']).to eq(@start_dt.to_s)
-        expect(json['data']['updateAvailability']['endDateTime']).to eq(@end_dt.to_s)
-        expect(json['data']['updateAvailability']['status']).to eq('cancelled')
+        expect(avail[:id]).to eq(@availability.id.to_s)
+        expect(avail[:userId]).to eq(@user.id.to_s)
+        expect(avail[:startDateTime]).to eq(@start_dt.to_s)
+        expect(avail[:endDateTime]).to eq(@end_dt.to_s)
+        expect(avail[:status]).to eq('cancelled')
       end
 
       it "An availability start date time can be updated" do
-        post '/graphql', params: { query:
+        post graphql_path, params: { query:
           "mutation {
             updateAvailability(input: {
               id: #{@availability.id.to_s}
@@ -49,17 +50,18 @@ module Mutations
             }
           }" }
 
-        json = JSON.parse(response.body)
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        avail = parsed[:data][:updateAvailability]
 
-        expect(json['data']['updateAvailability']['id']).to eq(@availability.id.to_s)
-        expect(json['data']['updateAvailability']['userId']).to eq(@user.id.to_s)
-        expect(json['data']['updateAvailability']['startDateTime']).to eq(1612355400.to_s)
-        expect(json['data']['updateAvailability']['endDateTime']).to eq(@end_dt.to_s)
-        expect(json['data']['updateAvailability']['status']).to eq('open')
+        expect(avail[:id]).to eq(@availability.id.to_s)
+        expect(avail[:userId]).to eq(@user.id.to_s)
+        expect(avail[:startDateTime]).to eq(1612355400.to_s)
+        expect(avail[:endDateTime]).to eq(@end_dt.to_s)
+        expect(avail[:status]).to eq('open')
       end
 
       it "An availability end date time can be updated" do
-        post '/graphql', params: { query: 
+        post graphql_path, params: { query: 
           "mutation {
             updateAvailability(input: {
               id: #{@availability.id.to_s}
@@ -73,17 +75,18 @@ module Mutations
             }
           }" }
 
-        json = JSON.parse(response.body)
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        avail = parsed[:data][:updateAvailability]
 
-        expect(json['data']['updateAvailability']['id']).to eq(@availability.id.to_s)
-        expect(json['data']['updateAvailability']['userId']).to eq(@user.id.to_s)
-        expect(json['data']['updateAvailability']['startDateTime']).to eq(@start_dt.to_s)
-        expect(json['data']['updateAvailability']['endDateTime']).to eq(1612328400.to_s)
-        expect(json['data']['updateAvailability']['status']).to eq('open')
+        expect(avail[:id]).to eq(@availability.id.to_s)
+        expect(avail[:userId]).to eq(@user.id.to_s)
+        expect(avail[:startDateTime]).to eq(@start_dt.to_s)
+        expect(avail[:endDateTime]).to eq(1612328400.to_s)
+        expect(avail[:status]).to eq('open')
       end
 
       it "An availability start and end date time can be updated" do
-        post '/graphql', params: { query: 
+        post graphql_path, params: { query: 
           "mutation {
             updateAvailability(input: {
               id: #{@availability.id.to_s}
@@ -98,13 +101,14 @@ module Mutations
             }
           }" }
 
-        json = JSON.parse(response.body)
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        avail = parsed[:data][:updateAvailability]
 
-        expect(json['data']['updateAvailability']['id']).to eq(@availability.id.to_s)
-        expect(json['data']['updateAvailability']['userId']).to eq(@user.id.to_s)
-        expect(json['data']['updateAvailability']['startDateTime']).to eq(1612324800.to_s)
-        expect(json['data']['updateAvailability']['endDateTime']).to eq(1612328400.to_s)
-        expect(json['data']['updateAvailability']['status']).to eq('open')
+        expect(avail[:id]).to eq(@availability.id.to_s)
+        expect(avail[:userId]).to eq(@user.id.to_s)
+        expect(avail[:startDateTime]).to eq(1612324800.to_s)
+        expect(avail[:endDateTime]).to eq(1612328400.to_s)
+        expect(avail[:status]).to eq('open')
       end
     end
   end

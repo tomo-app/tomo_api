@@ -1,4 +1,5 @@
 require 'rails_helper'
+
 module Queries
   RSpec.describe Types::QueryType, type: :request do
     before :each do
@@ -8,37 +9,6 @@ module Queries
       @language_two = create :language
       @target = create(:user_language, :target, user: @user_1, language: @language_one)
       @native = create(:user_language, :native, user: @user_1, language: @language_two)
-    end
-
-    def query(id:)
-      <<~GQL
-        query {
-          getUser(
-            id: #{id}
-          ) {
-            id
-            username
-            email
-            availabilities {
-              id
-              userId
-              startDateTime
-              endDateTime
-              status
-              createdAt
-              updatedAt
-            }
-            userLanguages {
-              id
-              userId
-              languageId
-              fluencyLevel
-              createdAt
-              updatedAt
-            }
-          }
-        }
-      GQL
     end
 
     describe 'user with availabilities' do
@@ -111,6 +81,37 @@ module Queries
         expect(json[:data][:getUser][:userLanguages][1][:languageId]).to eq(@native.language_id.to_s)
         expect(json[:data][:getUser][:userLanguages][1][:fluencyLevel]).to eq(@native.fluency_level)
       end
+    end
+
+    def query(id:)
+      <<~GQL
+        query {
+          getUser(
+            id: #{id}
+          ) {
+            id
+            username
+            email
+            availabilities {
+              id
+              userId
+              startDateTime
+              endDateTime
+              status
+              createdAt
+              updatedAt
+            }
+            userLanguages {
+              id
+              userId
+              languageId
+              fluencyLevel
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      GQL
     end
   end
 end

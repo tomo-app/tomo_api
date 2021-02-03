@@ -28,11 +28,5 @@ module Types
     def get_user(id:)
       User.find(id)
     end
-
-    field :get_users, [Types::UserType], null: false, description: 'Returns a list of users'
-
-    def get_users
-      User.all
-    end
   end
 end
