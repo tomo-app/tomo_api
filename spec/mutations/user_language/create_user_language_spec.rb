@@ -11,51 +11,53 @@ module Mutations
       it 'A user language can be created with fluency level of target' do
         post graphql_path, params: { query: query(user_id: @user.id, language_id: @language.id, fluency_level: 1) }
         
-        json = JSON.parse(response.body)
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        user_lang = parsed[:data][:createUserLanguage]
 
-        expect(json['data']['createUserLanguage']['id']).to_not eq(nil)
+        expect(user_lang[:id]).to_not eq(nil)
 
-        expect(json['data']['createUserLanguage']['userId']).to be_a(String)
-        expect(json['data']['createUserLanguage']['userId']).to eq(@user.id.to_s)
+        expect(user_lang[:userId]).to be_a(String)
+        expect(user_lang[:userId]).to eq(@user.id.to_s)
 
-        expect(json['data']['createUserLanguage']['languageId']).to be_a(String)
-        expect(json['data']['createUserLanguage']['languageId']).to eq(@language.id.to_s)
+        expect(user_lang[:languageId]).to be_a(String)
+        expect(user_lang[:languageId]).to eq(@language.id.to_s)
 
-        expect(json['data']['createUserLanguage']['fluencyLevel']).to be_a(String)
-        expect(json['data']['createUserLanguage']['fluencyLevel']).to eq("target")
+        expect(user_lang[:fluencyLevel]).to be_a(String)
+        expect(user_lang[:fluencyLevel]).to eq('target')
       end
 
       it 'A user language can be created with fluency level of native' do        
         post graphql_path, params: { query: query(user_id: @user.id, language_id: @language.id, fluency_level: 0) }
         
-        json = JSON.parse(response.body)
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        user_lang = parsed[:data][:createUserLanguage]
 
-        expect(json['data']['createUserLanguage']['id']).to_not eq(nil)
+        expect(user_lang[:id]).to_not eq(nil)
 
-        expect(json['data']['createUserLanguage']['userId']).to be_a(String)
-        expect(json['data']['createUserLanguage']['userId']).to eq(@user.id.to_s)
+        expect(user_lang[:userId]).to be_a(String)
+        expect(user_lang[:userId]).to eq(@user.id.to_s)
 
-        expect(json['data']['createUserLanguage']['languageId']).to be_a(String)
-        expect(json['data']['createUserLanguage']['languageId']).to eq(@language.id.to_s)
+        expect(user_lang[:languageId]).to be_a(String)
+        expect(user_lang[:languageId]).to eq(@language.id.to_s)
 
-        expect(json['data']['createUserLanguage']['fluencyLevel']).to be_a(String)
-        expect(json['data']['createUserLanguage']['fluencyLevel']).to eq("native")
+        expect(user_lang[:fluencyLevel]).to be_a(String)
+        expect(user_lang[:fluencyLevel]).to eq('native')
       end
 
       it 'A user language cannot be created with user that doesnt exist' do        
-        post graphql_path, params: { query: query(user_id: "234", language_id: @language.id, fluency_level: 0) }
+        post graphql_path, params: { query: query(user_id: '234', language_id: @language.id, fluency_level: 0) }
         
-        json = JSON.parse(response.body)
+        parsed = JSON.parse(response.body, symbolize_names: true)
         
-        expect(json['errors'][0]['message']).to eq("Cannot return null for non-nullable field UserLanguage.id")
+        expect(parsed[:errors][0][:message]).to eq('Cannot return null for non-nullable field UserLanguage.id')
       end
 
       it 'A user language cannot be created with language that doesnt exist' do        
-        post graphql_path, params: { query: query(user_id: @user.id, language_id: "2387", fluency_level: 0) }
+        post graphql_path, params: { query: query(user_id: @user.id, language_id: '2387', fluency_level: 0) }
         
-        json = JSON.parse(response.body)
+        parsed = JSON.parse(response.body, symbolize_names: true)
 
-        expect(json['errors'][0]['message']).to eq("Cannot return null for non-nullable field UserLanguage.id")
+        expect(parsed[:errors][0][:message]).to eq('Cannot return null for non-nullable field UserLanguage.id')
       end
 
       def query(language_id:, user_id:, fluency_level:)
