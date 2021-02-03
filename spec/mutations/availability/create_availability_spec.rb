@@ -25,34 +25,38 @@ module Mutations
           }
         }" }
 
-        json = JSON.parse(response.body)
-        expect(json['data']['createAvailability']['id']).to_not be(nil)
-        expect(json['data']['createAvailability']['userId']).to eq(@user.id.to_s)
-        expect(json['data']['createAvailability']['startDateTime']).to eq('1609489800')
-        expect(json['data']['createAvailability']['endDateTime']).to eq('1609504200')
-        expect(json['data']['createAvailability']['status']).to eq('open')
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        avail = parsed[:data][:createAvailability]
+
+        expect(avail[:id]).to_not be(nil)
+        expect(avail[:userId]).to eq(@user.id.to_s)
+        expect(avail[:startDateTime]).to eq('1609489800')
+        expect(avail[:endDateTime]).to eq('1609504200')
+        expect(avail[:status]).to eq('open')
       end
 
       it 'An availability can be created as fulfilled' do
         post graphql_path, params: { query: query(status: 1) }
-        json = JSON.parse(response.body)
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        avail = parsed[:data][:createAvailability]
 
-        expect(json['data']['createAvailability']['id']).to_not be(nil)
-        expect(json['data']['createAvailability']['userId']).to eq(@user.id.to_s)
-        expect(json['data']['createAvailability']['startDateTime']).to eq(@start_dt.to_s)
-        expect(json['data']['createAvailability']['endDateTime']).to eq(@end_dt.to_s)
-        expect(json['data']['createAvailability']['status']).to eq('fulfilled')
+        expect(avail[:id]).to_not be(nil)
+        expect(avail[:userId]).to eq(@user.id.to_s)
+        expect(avail[:startDateTime]).to eq(@start_dt.to_s)
+        expect(avail[:endDateTime]).to eq(@end_dt.to_s)
+        expect(avail[:status]).to eq('fulfilled')
       end
 
       it 'An availability can be created as cancelled' do
         post graphql_path, params: { query: query(status: 2) }
-        json = JSON.parse(response.body)
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        avail = parsed[:data][:createAvailability]
 
-        expect(json['data']['createAvailability']['id']).to_not be(nil)
-        expect(json['data']['createAvailability']['userId']).to eq(@user.id.to_s)
-        expect(json['data']['createAvailability']['startDateTime']).to eq(@start_dt.to_s)
-        expect(json['data']['createAvailability']['endDateTime']).to eq(@end_dt.to_s)
-        expect(json['data']['createAvailability']['status']).to eq('cancelled')
+        expect(avail[:id]).to_not be(nil)
+        expect(avail[:userId]).to eq(@user.id.to_s)
+        expect(avail[:startDateTime]).to eq(@start_dt.to_s)
+        expect(avail[:endDateTime]).to eq(@end_dt.to_s)
+        expect(avail[:status]).to eq('cancelled')
       end
 
       def query(status:)
