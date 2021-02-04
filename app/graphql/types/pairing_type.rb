@@ -11,7 +11,7 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
     def cancelled
-      self.object.cancelled?
+      object.cancelled?
     end
   end
 end
