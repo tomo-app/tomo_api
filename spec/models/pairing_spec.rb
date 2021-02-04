@@ -23,4 +23,32 @@ RSpec.describe Pairing, type: :model do
       end
     end
   end
+
+  describe 'class methods' do
+    describe 'create pairing' do
+      it 'can create a pairing' do
+        japanese_learning_english = create(:user)
+        english_learning_japanese = create(:user)
+        availability = japanese_learning_english.availabilities.create(start_date_time: DateTime.new(2021, 1, 1, 14, 30), end_date_time: DateTime.new(2021, 1, 1, 15, 30), status: 0)
+        open_slot = english_learning_japanese.availabilities.create(start_date_time: DateTime.new(2021, 1, 1, 13, 30), end_date_time: DateTime.new(2021, 1, 1, 15, 30), status: 0)
+        
+        Pairing.create_pairing(availability, [open_slot])
+
+        expect(Pairing.all.size).to eq(1)
+      end
+    end
+
+    describe 'determine_time_of_pairing' do
+      it 'can determine time of pairing' do
+        japanese_learning_english = create(:user)
+        english_learning_japanese = create(:user)
+        availability = japanese_learning_english.availabilities.create(start_date_time: DateTime.new(2021, 1, 1, 14, 30), end_date_time: DateTime.new(2021, 1, 1, 15, 30), status: 0)
+        open_slot = english_learning_japanese.availabilities.create(start_date_time: DateTime.new(2021, 1, 1, 13, 30), end_date_time: DateTime.new(2021, 1, 1, 15, 30), status: 0)
+        
+        time = Pairing.determine_time_of_pairing(availability, open_slot)
+
+        expect(time).to eq(availability.start_date_time)
+      end
+    end
+  end
 end
