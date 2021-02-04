@@ -47,7 +47,7 @@ module Types
     end
 
     def get_topic_and_translations(language_ids:)
-      Topic.order('RANDOM()').first
+      Topic.random
     end
   end
 end
