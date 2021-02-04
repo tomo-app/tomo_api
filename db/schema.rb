@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 2020_12_17_042100) do
     t.bigint "user1_id"
     t.bigint "user2_id"
     t.bigint "date_time"
-    t.boolean "user1_cancelled?"
-    t.boolean "user2_cancelled?"
+    t.boolean "user1_cancelled"
+    t.boolean "user2_cancelled"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user1_id"], name: "index_pairings_on_user1_id"
