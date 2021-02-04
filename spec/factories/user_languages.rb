@@ -3,7 +3,7 @@ FactoryBot.define do
     trait :native do
       fluency_level { 0 }
     end
-    
+
     trait :target do
       fluency_level { 1 }
     end

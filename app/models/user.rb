@@ -14,6 +14,10 @@ class User < ApplicationRecord
   validates :password_digest, presence: true
   validates :username, uniqueness: true, presence: true
 
+  def blocked_ids
+    blocked_pairings.map { |blocked| blocked.blocked_user.id }
+  end
+  
   def update_target(language_id, user)
     user_language = user.user_languages.find_by(fluency_level: 'target')
     user_language.update(language_id: language_id) if user_language
