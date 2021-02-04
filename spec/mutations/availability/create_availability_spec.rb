@@ -13,27 +13,8 @@ module Mutations
         create(:user_language, :target, language: @language2, user: @user)
       end
 
-      def query(status:)
-        <<~GQL
-          mutation {
-            createAvailability(input: { params: {
-              userId: #{@user.id}
-              startDateTime: #{@start_dt}
-              endDateTime: #{@end_dt}
-              status: #{status}
-            }}) {
-              id
-              userId
-              startDateTime
-              endDateTime
-              status
-            }
-          }
-        GQL
-      end
-
       it 'An availability can be created with default status of open' do
-        post '/graphql', params: { query:
+        post graphql_path, params: { query:
           "mutation {
           createAvailability(input: { params: {
             userId: #{@user.id}
@@ -54,28 +35,6 @@ module Mutations
         expect(json[:data][:createAvailability][:startDateTime]).to eq('1609489800')
         expect(json[:data][:createAvailability][:endDateTime]).to eq('1609504200')
         expect(json[:data][:createAvailability][:status]).to eq('open')
-      end
-
-      it 'An availability can be created as fulfilled' do
-        post '/graphql', params: { query: query(status: 1) }
-        json = JSON.parse(response.body, symbolize_names: true)
-
-        expect(json[:data][:createAvailability][:id]).to_not be(nil)
-        expect(json[:data][:createAvailability][:userId]).to eq(@user.id.to_s)
-        expect(json[:data][:createAvailability][:startDateTime]).to eq(@start_dt.to_s)
-        expect(json[:data][:createAvailability][:endDateTime]).to eq(@end_dt.to_s)
-        expect(json[:data][:createAvailability][:status]).to eq('fulfilled')
-      end
-
-      it 'An availability can be created as cancelled' do
-        post '/graphql', params: { query: query(status: 2) }
-        json = JSON.parse(response.body, symbolize_names: true)
-
-        expect(json[:data][:createAvailability][:id]).to_not be(nil)
-        expect(json[:data][:createAvailability][:userId]).to eq(@user.id.to_s)
-        expect(json[:data][:createAvailability][:startDateTime]).to eq(@start_dt.to_s)
-        expect(json[:data][:createAvailability][:endDateTime]).to eq(@end_dt.to_s)
-        expect(json[:data][:createAvailability][:status]).to eq('cancelled')
       end
 
       it 'when an availability is created it tries to pair the user' do
@@ -109,13 +68,59 @@ module Mutations
         }" }
 
         json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:data][:createAvailability][:id]).to_not be(nil)
-        expect(json[:data][:createAvailability][:userId]).to eq(japanese_learning_english.id.to_s)
-        expect(json[:data][:createAvailability][:startDateTime]).to eq(start_dt.to_s)
-        expect(json[:data][:createAvailability][:endDateTime]).to eq(end_dt.to_s)
-        expect(json[:data][:createAvailability][:status]).to eq('fulfilled')
+        
+        avail = json[:data][:createAvailability]
+        
+        expect(avail[:id]).to_not be(nil)
+        expect(avail[:userId]).to eq(japanese_learning_english.id.to_s)
+        expect(avail[:startDateTime]).to eq(start_dt.to_s)
+        expect(avail[:endDateTime]).to eq(end_dt.to_s)
+        expect(avail[:status]).to eq('fulfilled')
         
         expect(Pairing.all.size).to eq(1)
+      end
+
+      it 'An availability can be created as fulfilled' do
+        post graphql_path, params: { query: query(status: 1) }
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        avail = parsed[:data][:createAvailability]
+
+        expect(avail[:id]).to_not be(nil)
+        expect(avail[:userId]).to eq(@user.id.to_s)
+        expect(avail[:startDateTime]).to eq(@start_dt.to_s)
+        expect(avail[:endDateTime]).to eq(@end_dt.to_s)
+        expect(avail[:status]).to eq('fulfilled')
+      end
+
+      it 'An availability can be created as cancelled' do
+        post graphql_path, params: { query: query(status: 2) }
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        avail = parsed[:data][:createAvailability]
+
+        expect(avail[:id]).to_not be(nil)
+        expect(avail[:userId]).to eq(@user.id.to_s)
+        expect(avail[:startDateTime]).to eq(@start_dt.to_s)
+        expect(avail[:endDateTime]).to eq(@end_dt.to_s)
+        expect(avail[:status]).to eq('cancelled')
+      end
+
+      def query(status:)
+        <<~GQL
+          mutation {
+            createAvailability(input: { params: {
+              userId: #{@user.id}
+              startDateTime: #{@start_dt}
+              endDateTime: #{@end_dt}
+              status: #{status}
+            }}) {
+              id
+              userId
+              startDateTime
+              endDateTime
+              status
+            }
+          }
+        GQL
       end
     end
   end

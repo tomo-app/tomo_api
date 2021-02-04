@@ -17,4 +17,14 @@ class User < ApplicationRecord
   def blocked_ids
     blocked_pairings.map { |blocked| blocked.blocked_user.id }
   end
+  
+  def update_target(language_id, user)
+    user_language = user.user_languages.find_by(fluency_level: 'target')
+    user_language.update(language_id: language_id) if user_language
+  end
+
+  def update_native(language_id, user)
+    user_language = user.user_languages.find_by(fluency_level: 'native')
+    user_language.update(language_id: language_id) if user_language
+  end
 end
