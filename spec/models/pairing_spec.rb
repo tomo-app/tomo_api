@@ -22,6 +22,7 @@ RSpec.describe Pairing, type: :model do
         expect(pairing_3.cancelled?).to eq(true)
       end
     end
+    
     describe 'create pairing' do
       it 'can create a pairing' do
         japanese_learning_english = create(:user)
@@ -34,6 +35,7 @@ RSpec.describe Pairing, type: :model do
         expect(Pairing.all.size).to eq(1)
       end
     end
+
     describe 'determine_time_of_pairing' do
       it 'can determine time of pairing' do
         japanese_learning_english = create(:user)
