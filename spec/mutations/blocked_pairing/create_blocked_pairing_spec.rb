@@ -8,7 +8,7 @@ module Mutations
         @blocked = create :user
       end
 
-      it 'A can be created' do
+      it 'A blocked pairing can be created' do
         post graphql_path, params: { query: query(blocking_user_id: @blocker.id, blocked_user_id: @blocked.id) }
         
         parsed = JSON.parse(response.body, symbolize_names: true)
