@@ -20,7 +20,7 @@ module Mutations
         create(:user_language, :target, language: lang1, user: @user2)
       end
 
-      it "An availability can be updated as cancelled and wont create a pairing" do
+      it "An availability can be updated as cancelled and won't create a pairing" do
         start_dt2 = DateTime.new(2021, 1, 1, 9, 30).to_i
         end_dt2 = DateTime.new(2021, 1, 1, 12, 30).to_i
         availability2 = Availability.create!(user_id: @user2.id, start_date_time: start_dt2, end_date_time: end_dt2)
@@ -51,7 +51,7 @@ module Mutations
         expect(Pairing.all.size).to eq(0)
       end
 
-      it "An availability start date time can be updated and wont schedule a pairing if no availabilities exist" do
+      it "An availability start date time can be updated and won't schedule a pairing if no availabilities exist" do
         post graphql_path, params: { query:
           "mutation {
             updateAvailability(input: {
