@@ -22,7 +22,9 @@ RSpec.describe Pairing, type: :model do
         expect(pairing_3.cancelled?).to eq(true)
       end
     end
-    
+  end
+
+  describe 'class methods' do
     describe 'create pairing' do
       it 'can create a pairing' do
         japanese_learning_english = create(:user)
