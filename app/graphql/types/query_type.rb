@@ -40,5 +40,14 @@ module Types
     def get_pairings(user_id:)
       Pairing.where(user1_id: user_id).or(Pairing.where(user2_id: user_id))
     end
+
+    # ----- topics and translations -----
+    field :get_topic_and_translations, Types::TopicType, null: false, description: 'Returns a random topic and any requested translations' do
+      argument :language_ids, [ID], required: true
+    end
+
+    def get_topic_and_translations(language_ids:)
+      Topic.order('RANDOM()').first
+    end
   end
 end
