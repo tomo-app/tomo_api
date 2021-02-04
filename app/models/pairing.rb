@@ -17,4 +17,8 @@ class Pairing < ApplicationRecord
       availability2.start_date_time
     end
   end
+
+  def cancelled?
+    user1_cancelled? || user2_cancelled?
+  end
 end
