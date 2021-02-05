@@ -47,7 +47,8 @@ module Types
     end
 
     def get_topic_and_translations(language_ids:)
-      context[:language_ids] = JSON.parse(language_ids.first)
+      raise GraphQL::ExecutionError, 'languageIds must contain two languages' if language_ids.size != 2
+      context[:language_ids] = language_ids
       topic = Topic.random
     end
   end
