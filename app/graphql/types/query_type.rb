@@ -47,7 +47,8 @@ module Types
     end
 
     def get_topic_and_translations(language_ids:)
-      Topic.random
+      context[:language_ids] = JSON.parse(language_ids.first)
+      topic = Topic.random
     end
   end
 end
