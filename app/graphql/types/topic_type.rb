@@ -7,7 +7,7 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
     def translations
-      object.translations_for_languages(context[:language_ids])
+      context[:translations]
     end
   end
 end

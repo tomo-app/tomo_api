@@ -48,8 +48,9 @@ module Types
 
     def get_topic_and_translations(language_ids:)
       raise GraphQL::ExecutionError, 'languageIds must contain two languages' if language_ids.size != 2
-      context[:language_ids] = language_ids
       topic = Topic.random
+      context[:translations] = topic.translations_for_languages(language_ids)
+      topic
     end
   end
 end
