@@ -1,6 +1,10 @@
-# TOMO
+<img src="app/assets/images/logo.png" width="200"><br>
+
 ![rails-badge](https://img.shields.io/badge/Rails-6.1.0-informational?style=flat-square) ![ruby-badge](https://img.shields.io/badge/Ruby-2.7.2-informational?style=flat-square) ![build-badge](https://img.shields.io/travis/tomo-riff-raff/tomo_api/main?style=flat-square) ![closed-pr-badge](https://img.shields.io/github/issues-pr-closed-raw/tomo-riff-raff/tomo_api?style=flat-square)
 
+This GraphQL on Rails API serves queries and mutations to Tomo, an application for language exchange pairing.
+
+## Readme Content
   - [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Installation](#testing)
@@ -9,6 +13,7 @@
     - [Users](#users)
     - [Availabilities](#availabilities)
     - [UserLanguages](#userlanguages)
+
 ## Setup
 ### Prerequisites
 - Ruby 2.7.2
