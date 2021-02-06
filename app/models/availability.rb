@@ -30,8 +30,4 @@ class Availability < ApplicationRecord
                 .where(fluency_level: 'target', language_id: native.language_id)
                 .where(user_id: target_users).order(:created_at)
   end
-
-  def self.user
-    User.find(user_id)
-  end
 end
