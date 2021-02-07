@@ -121,6 +121,30 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
       </details><br>
 
 #### Blocked Pairings
+  - **Create Blocked Pairing**: create a new blocked pairing for a user
+    - Type: [Blocked Pairing](#blocked-pairing)
+    - Arguments: 
+      ```
+      argument :blocking_user_id, ID, required: true
+      argument :blocked_user_id, ID, required: true
+      ```
+    - <details>
+        <summary>Example request</summary>
+
+        ```
+        mutation {
+          createBlockedPairing(input: { params: {
+            blockingUserId: "1",
+            blockedUserId: "2"
+          }}) {
+            id
+            blockingUserId
+            blockedUserId
+          }
+        }
+        ```
+      </details><br>
+
 #### Language
 #### Pairing
 #### User Language
@@ -267,33 +291,6 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
     field :availabilities, [Types::AvailabilityType], null: false
     field :user_languages, [Types::UserLanguageType], null: false
   ```
-
-
-#### updateAvailability
-- `status: "1"`: 'fulfilled', `status: "2"`: 'open'
-```
-mutation {
-  updateAvailability(input: {id: "2", startDateTime: 1612324800, endDateTime: 1612328400, status: 1}) {
-    id
-    userId
-    startDateTime
-    endDateTime
-    status
-  }
-}
-```
-### UserLanguages
-#### createUserLanguage
-```
-mutation {
-  createUserLanguage(input: {params: {languageId: "2", userId: "1", fluencyLevel: "0"}}) {
-    id
-    languageId
-    userId
-    fluencyLevel
-  }
-}
-```
 
 ## Database Schema
 ![schema](/schema.png)
