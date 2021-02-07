@@ -1,6 +1,18 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start 'rails' do
+  class BaseFilter < SimpleCov::Filter
+    def matches?(source_file)
+      source_file.filename.include?(filter_argument)
+    end
+  end
+
+  add_filter '/app/controllers/graphql_controller.rb'
+  add_filter '/app/channels/'
+  add_filter '/app/jobs/'
+  add_filter '/app/mailers/'
+  add_filter BaseFilter.new("types/base_")
+end
 
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
