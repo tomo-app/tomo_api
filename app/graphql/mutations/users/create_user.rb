@@ -9,7 +9,7 @@ module Mutations
         if user_params[:password] == user_params[:password_confirmation]
           User.create(user_params)
         else
-          GraphQL::ExecutionError.new('passwords must match')
+          GraphQL::ExecutionError.new('password and confirmation must match')
         end
       end
     end
