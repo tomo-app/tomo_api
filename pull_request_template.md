@@ -11,7 +11,8 @@
 * Addresses #
 * Closes #
 
-### Tracking Consistency:
+### Tracking and Documentation Consistency:
+- [ ] Updated README where necessary
 - [ ] Added appropriate labels
 - [ ] Addressed any rubocop violations
 - [ ] Added comments on my pull request, particularly in hard-to-understand areas
