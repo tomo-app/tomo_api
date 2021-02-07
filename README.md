@@ -146,6 +146,21 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
       </details><br>
 
 #### Language
+  - **Get Languages**: get all languages currently supported by the application
+    - Type: [Language](#language)
+    - <details>
+        <summary>Example request</summary>
+
+        ```
+        {
+          getLanguages {
+            id
+            name
+          }
+        }
+        ```
+      </details><br>
+
 #### Pairing
 #### User Language
 #### Users
