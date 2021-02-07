@@ -2,9 +2,11 @@
 
 ![rails-badge](https://img.shields.io/badge/Rails-6.1.0-informational?style=flat-square) ![ruby-badge](https://img.shields.io/badge/Ruby-2.7.2-informational?style=flat-square) ![build-badge](https://img.shields.io/travis/tomo-riff-raff/tomo_api/main?style=flat-square) ![closed-pr-badge](https://img.shields.io/github/issues-pr-closed-raw/tomo-riff-raff/tomo_api?style=flat-square)
 
-This GraphQL on Rails API serves queries and mutations to Tomo, an application for language exchange pairing.
+This GraphQL on Rails API serves queries and mutations to Tomo, an application that allows language learners to schedule anonymous language exchange sessions without the hassles of coordinating a specific date and time. 
 
 Live endpoint: https://tomo-api.herokuapp.com/graphql
+
+Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
 
 ## Readme Content
 - [Local Setup](#local-setup)
