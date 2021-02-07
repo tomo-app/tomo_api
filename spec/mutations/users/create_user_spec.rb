@@ -3,7 +3,7 @@ require 'rails_helper'
 module Mutations
   module Users
     RSpec.describe CreateUser, type: :request do
-      it 'A user can be created' do
+      it 'can create a user' do
         post '/graphql', params: { query: query(email: 'user@tomo.com', username: 'mari', password: '123', password_confirmation: '123') }
 
         parsed = JSON.parse(response.body, symbolize_names: true)
@@ -16,6 +16,18 @@ module Mutations
 
         expect(user[:email]).to be_a(String)
         expect(user[:email]).to eq('user@tomo.com')
+
+        expect(User.all.count).to eq(1)
+      end
+
+      it 'cannot create a user if password does not match password confirmation' do
+        post '/graphql', params: { query: query(email: 'user@tomo.com', username: 'mari', password: '123', password_confirmation: 'abc') }
+
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        
+        expect(parsed[:errors][0][:message]).to eq('password and confirmation must match')
+        
+        expect(User.all.count).to eq(0)
       end
 
       def query(email:, username:, password:, password_confirmation:)
