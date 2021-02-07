@@ -2,9 +2,11 @@
 
 ![rails-badge](https://img.shields.io/badge/Rails-6.1.0-informational?style=flat-square) ![ruby-badge](https://img.shields.io/badge/Ruby-2.7.2-informational?style=flat-square) ![build-badge](https://img.shields.io/travis/tomo-riff-raff/tomo_api/main?style=flat-square) ![closed-pr-badge](https://img.shields.io/github/issues-pr-closed-raw/tomo-riff-raff/tomo_api?style=flat-square)
 
-This GraphQL on Rails API serves queries and mutations to Tomo, an application for language exchange pairing.
+This GraphQL on Rails API serves queries and mutations to Tomo, an application that allows language learners to schedule anonymous language exchange sessions without the hassles of coordinating a specific date and time. 
 
 Live endpoint: https://tomo-api.herokuapp.com/graphql
+
+Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
 
 ## Readme Content
 - [Local Setup](#local-setup)
@@ -210,6 +212,27 @@ Live endpoint: https://tomo-api.herokuapp.com/graphql
             user1Cancelled
             user2Cancelled
             cancelled
+        ```
+      </details><br>
+
+### Topics
+  - **Get Topic and Translations**: returns a random topic and any requested translations for 2 languages by language_id
+    - Type: [Topic](#topic)
+    - Argument: 
+      ```
+      argument :language_ids, [ID], required: true
+      ```
+    - <details>
+        <summary>Example request</summary>
+
+        ```
+        {
+          getTopicAndTranslations(languageIds: ["1", "2"]) {
+            id
+            description
+            translations {
+              translation
+            }
           }
         }
         ```
@@ -340,6 +363,7 @@ Live endpoint: https://tomo-api.herokuapp.com/graphql
     field :created_at, String, null: false
     field :updated_at, String, null: false
   ```
+
 - #### Blocked Pairing
   ```
     field :id, ID, null: false
@@ -348,6 +372,7 @@ Live endpoint: https://tomo-api.herokuapp.com/graphql
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   ```
+
 - #### Language
   ```
     field :id, ID, null: false
@@ -355,6 +380,7 @@ Live endpoint: https://tomo-api.herokuapp.com/graphql
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   ```
+
 - #### Pairing
   ```
     field :id, ID, null: false
@@ -367,6 +393,26 @@ Live endpoint: https://tomo-api.herokuapp.com/graphql
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   ```
+
+- #### Topic Translation
+  ```
+    field :id, ID, null: false
+    field :language_id, ID, null: false
+    field :topic_id, ID, null: false
+    field :translation, String, null: false
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+  ```
+
+- #### Topic
+  ```
+    field :id, ID, null: false
+    field :description, String, null: false
+    field :translations, [Types::TopicTranslationType], null: true
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+  ```
+
 - #### User Language
   ```
     field :id, ID, null: false
@@ -375,8 +421,8 @@ Live endpoint: https://tomo-api.herokuapp.com/graphql
     field :fluency_level, String, null: false
     field :created_at, String, null: false
     field :updated_at, String, null: false
-
   ```
+
 - #### User
   ```
     field :id, ID, null: false
