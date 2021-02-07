@@ -191,6 +191,30 @@ Live endpoint: https://tomo-api.herokuapp.com/graphql
         ```
       </details><br>
 
+  - **Cancel Pairing**: fetch all pairings for a user by id
+    - Type: [Pairing](#pairing)
+    - Argument: 
+      ```
+      argument :id, ID, required: true
+      argument :user_id, ID, required: true
+      ```
+    - <details>
+        <summary>Example request</summary>
+
+        ```
+        mutation {
+          cancelPairing(input: { id: "4", userId: "1" }) {
+            id
+            user1Id
+            user2Id
+            user1Cancelled
+            user2Cancelled
+            cancelled
+          }
+        }
+        ```
+      </details><br>
+
 ### User Languages
   - **Create User Language**: add a new language for a user
     - Type: [Blocked Pairing](#blocked-pairing)
