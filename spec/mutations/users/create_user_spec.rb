@@ -41,6 +41,17 @@ module Mutations
         expect(User.all.count).to eq(1)
       end
 
+      it 'cannot create a user if the email is taken' do
+        create(:user, email: 'user@tomo.com')
+        post '/graphql', params: { query: query(email: 'user@tomo.com', username: 'mari', password: '123', password_confirmation: '123') }
+
+        parsed = JSON.parse(response.body, symbolize_names: true)
+
+        expect(parsed[:errors][0][:message]).to eq('That email is already taken')
+        
+        expect(User.all.count).to eq(1)
+      end
+
       def query(email:, username:, password:, password_confirmation:)
         <<~GQL
           mutation {
