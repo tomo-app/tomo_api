@@ -193,6 +193,29 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
         ```
       </details><br>
 
+### Topics
+  - **Get Topic and Translations**: returns a random topic and any requested translations for 2 languages by language_id
+    - Type: [Pairing](#pairing)
+    - Argument: 
+      ```
+      argument :language_ids, [ID], required: true
+      ```
+    - <details>
+        <summary>Example request</summary>
+
+        ```
+        {
+          getTopicAndTranslations(languageIds: ["1", "2"]) {
+            id
+            description
+            translations {
+              translation
+            }
+          }
+        }
+        ```
+      </details><br>
+
 ### User Languages
   - **Create User Language**: add a new language for a user
     - Type: [Blocked Pairing](#blocked-pairing)
@@ -318,6 +341,7 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
     field :created_at, String, null: false
     field :updated_at, String, null: false
   ```
+
 - #### Blocked Pairing
   ```
     field :id, ID, null: false
@@ -326,6 +350,7 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   ```
+
 - #### Language
   ```
     field :id, ID, null: false
@@ -333,6 +358,7 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   ```
+
 - #### Pairing
   ```
     field :id, ID, null: false
@@ -345,6 +371,26 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   ```
+
+- #### Topic Translation
+  ```
+    field :id, ID, null: false
+    field :language_id, ID, null: false
+    field :topic_id, ID, null: false
+    field :translation, String, null: false
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+  ```
+
+- #### Topic
+  ```
+    field :id, ID, null: false
+    field :description, String, null: false
+    field :translations, [Types::TopicTranslationType], null: true
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+  ```
+
 - #### User Language
   ```
     field :id, ID, null: false
@@ -353,8 +399,8 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
     field :fluency_level, String, null: false
     field :created_at, String, null: false
     field :updated_at, String, null: false
-
   ```
+
 - #### User
   ```
     field :id, ID, null: false
