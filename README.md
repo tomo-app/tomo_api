@@ -4,10 +4,19 @@
 
 This GraphQL on Rails API serves queries and mutations to Tomo, an application for language exchange pairing.
 
+Live endpoint: https://tomo-api.herokuapp.com/graphql
+
 ## Readme Content
 - [Local Setup](#local-setup)
 - [Test Suite](#test-suite)
-- [GraphQL Schema](#graphql-schema)
+- [GraphQL Queries and Mutations](#graphql-queries-and-mutations)
+  - [Availabilities](#availabilities)
+  - [Blocked Pairings](#blocked-pairings)
+  - [Languages](#languages)
+  - [Pairings](#pairings)
+  - [User Languages](#user-languages)
+  - [Users](#users)
+- [GraphQL Types](#graphql-types)
 - [Database Schema](#database-schema)
 - [Project Board](#project-board)
 
@@ -34,11 +43,10 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
 - All tests should be passing
 - To view specific test coverage: `open coverage/index.html` 
 
-## GraphQL Schema
+## GraphQL Queries and Mutations
 - Endpoint: POST https://tomo-api.herokuapp.com/graphql
 
-### Queries & Mutations
-#### Availabilities
+### Availabilities
   - **Get Availabilities**: fetch all availabilities for a user by id
     - Type: [Availability](#availability)
     - Arguments: 
@@ -120,7 +128,7 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
         ```
       </details><br>
 
-#### Blocked Pairings
+### Blocked Pairings
   - **Create Blocked Pairing**: create a new blocked pairing for a user
     - Type: [Blocked Pairing](#blocked-pairing)
     - Arguments: 
@@ -145,7 +153,7 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
         ```
       </details><br>
 
-#### Language
+### Languages
   - **Get Languages**: get all languages currently supported by the application
     - Type: [Language](#language)
     - <details>
@@ -161,7 +169,7 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
         ```
       </details><br>
 
-#### Pairing
+### Pairings
   - **Get Pairings**: fetch all pairings for a user by id
     - Type: [Pairing](#pairing)
     - Argument: 
@@ -183,7 +191,7 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
         ```
       </details><br>
 
-#### User Language
+### User Languages
   - **Create User Language**: add a new language for a user
     - Type: [Blocked Pairing](#blocked-pairing)
     - Arguments: 
@@ -212,7 +220,7 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
         ```
       </details><br>
 
-#### Users
+### Users
   - **Get User**: fetch information for a user by id
     - Type: [User](#user)
     - Argument: 
@@ -297,7 +305,7 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
           ```
       </details><br>
 
-### Types
+## Types
 - #### Availability
   ```
     field :id, ID, null: false
