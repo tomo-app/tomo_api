@@ -193,9 +193,31 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
         ```
       </details><br>
 
+  - **Cancel Pairing**: fetch all pairings for a user by id
+    - Type: [Pairing](#pairing)
+    - Argument: 
+      ```
+      argument :id, ID, required: true
+      argument :user_id, ID, required: true
+      ```
+    - <details>
+        <summary>Example request</summary>
+
+        ```
+        mutation {
+          cancelPairing(input: { id: "4", userId: "1" }) {
+            id
+            user1Id
+            user2Id
+            user1Cancelled
+            user2Cancelled
+            cancelled
+        ```
+      </details><br>
+
 ### Topics
   - **Get Topic and Translations**: returns a random topic and any requested translations for 2 languages by language_id
-    - Type: [Pairing](#pairing)
+    - Type: [Topic](#topic)
     - Argument: 
       ```
       argument :language_ids, [ID], required: true
