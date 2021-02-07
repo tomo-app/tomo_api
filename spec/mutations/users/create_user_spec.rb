@@ -36,7 +36,7 @@ module Mutations
 
         parsed = JSON.parse(response.body, symbolize_names: true)
 
-        expect(parsed[:errors][0][:message]).to eq('That username aleady exists')
+        expect(parsed[:errors][0][:message]).to eq('That username is already taken')
         
         expect(User.all.count).to eq(1)
       end

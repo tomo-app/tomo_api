@@ -14,7 +14,7 @@ module Mutations
         elsif !passwords_match
           GraphQL::ExecutionError.new('password and confirmation must match')
         elsif username_taken
-          GraphQL::ExecutionError.new('That username aleady exists')
+          GraphQL::ExecutionError.new('That username is already taken')
         elsif email_taken
           GraphQL::ExecutionError.new('That email is already taken')
         end
