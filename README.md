@@ -184,6 +184,34 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
       </details><br>
 
 #### User Language
+  - **Create User Language**: add a new language for a user
+    - Type: [Blocked Pairing](#blocked-pairing)
+    - Arguments: 
+      ```
+      argument :user_id, ID, required: true
+      argument :language_id, ID, required: true
+      argument :fluency_level, String, required: true
+      ```
+    - `fluency_level: "0"`: 'native', `fluency_level: "1"`: 'target'
+    - <details>
+        <summary>Example request</summary>
+
+        ```
+        mutation {
+          createUserLanguage(input: { params: {
+            userId: "1",
+            languageId: "1",
+            fluencyLevel: "1"
+          }}) {
+            id
+            userId
+            languageId
+            fluencyLevel
+          }
+        }
+        ```
+      </details><br>
+
 #### Users
   - **Get User**: fetch information for a user by id
     - Type: [User](#user)
