@@ -162,6 +162,27 @@ This GraphQL on Rails API serves queries and mutations to Tomo, an application f
       </details><br>
 
 #### Pairing
+  - **Get Pairings**: fetch all pairings for a user by id
+    - Type: [Pairing](#pairing)
+    - Argument: 
+      ```
+      argument :user_id, ID, required: true
+      ```
+    - <details>
+        <summary>Example request</summary>
+
+        ```
+        {
+          getPairings(userId: "1") {
+            id
+            user1Id
+            user2Id
+            cancelled
+          }
+        }
+        ```
+      </details><br>
+
 #### User Language
 #### Users
   - **Get User**: fetch information for a user by id
