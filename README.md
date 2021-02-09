@@ -458,8 +458,10 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
       - studying User A's native language
       - speaks language that User A is studying
       - not on User A's blocked pairing list
+      - hasn't blocked User A
   - If above criteria is met, a new pairing record is created at the beginning of the overlap time block.
-   - Each user's availbility's status is changed to 'fulfilled'.
+    - Each user's availbility's status is changed to 'fulfilled'.
+  - _Note_: this is an interim solution. The eventual goal is a more direct scheduling experience (like scheduling a meeting). 
 
 ## Project Board
 [GitHub project](https://github.com/orgs/tomo-riff-raff/projects/1)
