@@ -20,6 +20,7 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
   - [Users](#users)
 - [GraphQL Types](#graphql-types)
 - [Database Schema](#database-schema)
+- [FAQs](#faqs)
 - [Project Board](#project-board)
 
 ## Local Setup
@@ -445,6 +446,20 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
   - **User Languages**: languages that a user has chosen as either their native or target learning language
   - **Topics**: conversation topics
   - **Topic Translations**: translation of each conversation topic to supported languages
+
+## FAQs
+### Technical
+- **How are pairings created?**
+  - User A submits an availability block and a new record in Availbilities table is created with default status of 'open'. 
+  - Backend searches for another availbility with the following parameters:
+    - overlapping date and time
+    - availability status = open
+    - this availability's user is:
+      - studying User A's native language
+      - speaks language that User A is studying
+      - not on User A's blocked pairing list
+  - If above criteria is met, a new pairing record is created at the beginning of the overlap time block.
+   - Each user's availbility's status is changed to 'fulfilled'.
 
 ## Project Board
 [GitHub project](https://github.com/orgs/tomo-riff-raff/projects/1)
