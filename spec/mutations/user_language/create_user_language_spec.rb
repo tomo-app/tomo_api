@@ -45,7 +45,7 @@ module Mutations
         expect(user_lang[:fluencyLevel]).to be_a(String)
         expect(user_lang[:fluencyLevel]).to eq('native')
 
-        expect(UserLanguage.all.count).to eq(0)
+        expect(UserLanguage.all.count).to eq(1)
       end
 
       it 'A user language cannot be created with user that doesnt exist' do        
