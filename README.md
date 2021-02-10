@@ -246,18 +246,18 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
       ```
       argument :user_id, ID, required: true
       argument :language_id, ID, required: true
-      argument :fluency_level, String, required: true
+      argument :fluency_level, Integer, required: true
       ```
-    - `fluency_level: "0"`: 'native', `fluency_level: "1"`: 'target'
+    - `fluency_level: 0`: 'native', `fluency_level: 1`: 'target'
     - <details>
         <summary>Example request</summary>
 
         ```
         mutation {
           createUserLanguage(input: { params: {
-            userId: "1",
-            languageId: "1",
-            fluencyLevel: "1"
+            userId: 1,
+            languageId: 1,
+            fluencyLevel: 1
           }}) {
             id
             userId

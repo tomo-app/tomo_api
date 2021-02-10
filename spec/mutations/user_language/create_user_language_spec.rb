@@ -66,7 +66,7 @@ module Mutations
             createUserLanguage(input: { params: {
               languageId: "#{language_id}"
               userId: "#{user_id}"
-              fluencyLevel: "#{fluency_level}"
+              fluencyLevel: #{fluency_level}
             }}) {
               id
               languageId
