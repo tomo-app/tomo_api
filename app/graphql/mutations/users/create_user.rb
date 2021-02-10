@@ -11,7 +11,13 @@ module Mutations
         email_taken = User.exists?(email: user_params[:email])
         if passwords_match && !username_taken && !email_taken
           User.create(user_params)
-        elsif !passwords_match
+        else
+          handle_errors(passwords_match, username_taken, email_taken)
+        end
+      end
+
+      def handle_errors(passwords_match, username_taken, email_taken)
+        if !passwords_match
           GraphQL::ExecutionError.new('password and confirmation must match')
         elsif username_taken
           GraphQL::ExecutionError.new('That username is already taken')

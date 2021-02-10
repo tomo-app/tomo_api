@@ -24,6 +24,8 @@ module Mutations
 
         expect(user_lang[:fluencyLevel]).to be_a(String)
         expect(user_lang[:fluencyLevel]).to eq('target')
+
+        expect(UserLanguage.all.count).to eq(1)
       end
 
       it 'A user language can be created with fluency level of native' do        
@@ -42,6 +44,8 @@ module Mutations
 
         expect(user_lang[:fluencyLevel]).to be_a(String)
         expect(user_lang[:fluencyLevel]).to eq('native')
+
+        expect(UserLanguage.all.count).to eq(1)
       end
 
       it 'A user language cannot be created with user that doesnt exist' do        
@@ -50,6 +54,8 @@ module Mutations
         parsed = JSON.parse(response.body, symbolize_names: true)
         
         expect(parsed[:errors][0][:message]).to eq('Cannot return null for non-nullable field UserLanguage.id')
+
+        expect(UserLanguage.all.count).to eq(0)
       end
 
       it 'A user language cannot be created with language that doesnt exist' do        
@@ -58,6 +64,8 @@ module Mutations
         parsed = JSON.parse(response.body, symbolize_names: true)
 
         expect(parsed[:errors][0][:message]).to eq('Cannot return null for non-nullable field UserLanguage.id')
+
+        expect(UserLanguage.all.count).to eq(0)
       end
 
       def query(language_id:, user_id:, fluency_level:)
@@ -66,7 +74,7 @@ module Mutations
             createUserLanguage(input: { params: {
               languageId: "#{language_id}"
               userId: "#{user_id}"
-              fluencyLevel: "#{fluency_level}"
+              fluencyLevel: #{fluency_level}
             }}) {
               id
               languageId
