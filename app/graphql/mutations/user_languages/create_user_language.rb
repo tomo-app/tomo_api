@@ -5,9 +5,7 @@ module Mutations
       type Types::UserLanguageType
 
       def resolve(params:)
-        user_language_params = Hash params
-        user_language_params[:fluency_level] = user_language_params[:fluency_level].to_i
-        UserLanguage.create(user_language_params)
+        UserLanguage.create(params.to_hash)
       end
     end
   end
