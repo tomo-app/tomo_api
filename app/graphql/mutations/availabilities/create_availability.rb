@@ -12,10 +12,12 @@ module Mutations
       end
 
       def schedule_pairing(availability)
-        open_slot = availability.find_availabilities_to_pair
-        pairing = Pairing.create_pairing(availability, open_slot) unless open_slot.nil?
-        availability.update(status: 'fulfilled') unless pairing.nil?
-        open_slot[0].update(status: 'fulfilled') unless pairing.nil?
+        open_slot = availability.availabilities_to_pair
+        unless open_slot.empty?
+          Pairing.create_pairing(availability, open_slot)
+          availability.update(status: 'fulfilled')
+          open_slot[0].update(status: 'fulfilled')
+        end
       end
     end
   end
