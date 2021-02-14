@@ -17,8 +17,8 @@ module Mutations
       end
 
       def schedule_pairing(availability)
-        unless availability.status == 'cancelled' || availability.status == 'fulfilled'
-          open_slot = availability.find_availabilities_to_pair
+        if availability.status == 'open'
+          open_slot = availability.availabilities_to_pair
           pairing = Pairing.create_pairing(availability, open_slot) unless open_slot.empty?
           availability.update(status: 'fulfilled') unless pairing.nil?
           open_slot[0].update(status: 'fulfilled') unless pairing.nil?
