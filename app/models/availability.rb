@@ -7,17 +7,17 @@ class Availability < ApplicationRecord
 
   enum status: { 'open': 0, 'fulfilled': 1, 'cancelled': 2 }
 
-  def find_availabilities_to_pair
-    unless people_to_pair.empty?
-      Availability.where(start_date_time: start_date_time..end_date_time)
-                  .or(Availability.where(end_date_time: start_date_time..end_date_time))
-                  .or(Availability.where('availabilities.start_date_time < ?', start_date_time).where(
-                        'availabilities.end_date_time > ?', end_date_time
-                      ))
-                  .where.not(user_id: user_id)
-                  .where.not(user_id: user.blocked_ids)
-                  .where(status: 'open').where(user_id: people_to_pair.first.user_id)
-    end
+  def availabilities_to_pair
+    return [] if people_to_pair.empty?
+
+    Availability.where(start_date_time: start_date_time..end_date_time)
+                .or(Availability.where(end_date_time: start_date_time..end_date_time))
+                .or(Availability.where('availabilities.start_date_time < ?', start_date_time).where(
+                      'availabilities.end_date_time > ?', end_date_time
+                    ))
+                .where.not(user_id: user_id)
+                .where.not(user_id: user.blocked_ids)
+                .where(status: 'open').where(user_id: people_to_pair.first.user_id)
   end
 
   def people_to_pair
