@@ -6,7 +6,7 @@ RSpec.describe Availability, type: :model do
   it { should validate_presence_of :status }
 
   describe 'model methods' do
-    describe 'find_availabilities_to_pair' do 
+    describe 'availabilities_to_pair' do 
       it 'can schedule and create a pairing' do
         japanese = create(:language)
         english = create(:language)
@@ -22,7 +22,7 @@ RSpec.describe Availability, type: :model do
         availability = japanese_learning_english.availabilities.create(start_date_time: DateTime.new(2021, 1, 1, 14, 30), end_date_time: DateTime.new(2021, 1, 1, 15, 30), status: 0)
         english_learning_japanese.availabilities.create(start_date_time: DateTime.new(2021, 1, 1, 13, 30), end_date_time: DateTime.new(2021, 1, 1, 15, 45), status: 0)
         english_learning_japanese_two.availabilities.create(start_date_time: DateTime.new(2021, 1, 1, 13, 30), end_date_time: DateTime.new(2021, 1, 1, 15, 45), status: 0)
-        available_people = availability.find_availabilities_to_pair
+        available_people = availability.availabilities_to_pair
 
         expect(available_people.size).to eq(1)
         expect(available_people.first.user_id).to eq(english_learning_japanese.id).or eq(english_learning_japanese_two.id)
@@ -40,7 +40,7 @@ RSpec.describe Availability, type: :model do
         BlockedPairing.create(blocking_user: japanese_learning_english, blocked_user: english_learning_japanese)
         availability = japanese_learning_english.availabilities.create(start_date_time: DateTime.new(2021, 1, 1, 14, 30), end_date_time: DateTime.new(2021, 1, 1, 15, 30), status: 0)
         english_learning_japanese.availabilities.create(start_date_time: DateTime.new(2021, 1, 1, 13, 30), end_date_time: DateTime.new(2021, 1, 1, 15, 30), status: 0)
-        available_people = availability.find_availabilities_to_pair
+        available_people = availability.availabilities_to_pair
 
         expect(available_people).to eq([])
       end
