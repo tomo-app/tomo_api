@@ -122,6 +122,19 @@ module Mutations
           
           expect(Pairing.all.size).to eq(0)
         end
+
+
+        it 'an availability cannot be created when user does not yet have user languages' do
+          new_user = create(:user)
+
+          post graphql_path, params: { query: query(user_id: new_user.id, status: 0) }
+
+          json = JSON.parse(response.body, symbolize_names: true)
+          
+          expect(json[:errors][0][:message]).to eq('user must first have user languages in order to create availability')
+          
+          expect(Pairing.all.size).to eq(0)
+        end
       end
 
       def query(user_id:, status:)
