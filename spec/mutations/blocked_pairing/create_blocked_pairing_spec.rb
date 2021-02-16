@@ -23,6 +23,15 @@ module Mutations
         expect(blocked_pair[:blockedUserId]).to eq(@blocked.id.to_s)
       end
 
+      it 'user cannot create more than one blocked pairing for another user' do
+        BlockedPairing.create(blocking_user_id: @blocker.id, blocked_user_id: @blocked.id)
+
+        post graphql_path, params: { query: query(blocking_user_id: @blocker.id, blocked_user_id: @blocked.id) }
+        
+        parsed = JSON.parse(response.body, symbolize_names: true)
+        expect(parsed[:errors][0][:message]).to eq('this user has already been blocked')
+      end
+
       def query(blocking_user_id:, blocked_user_id:)
         <<~GQL
           mutation {
