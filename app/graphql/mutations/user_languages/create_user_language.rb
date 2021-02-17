@@ -13,7 +13,8 @@ module Mutations
       end
 
       def user_language_exists?(params)
-        UserLanguage.where(user: params[:user_id], language: params[:language_id],fluency_level: params[:fluency_level]).exists?
+        UserLanguage.exists?(user: params[:user_id], language: params[:language_id],
+                             fluency_level: params[:fluency_level])
       end
 
       def handle_duplicate_user_lang
