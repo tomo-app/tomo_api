@@ -68,6 +68,17 @@ module Mutations
         expect(UserLanguage.all.count).to eq(0)
       end
 
+      it 'A duplicate language and fluency level cannot be created' do
+        UserLanguage.create(user: @user, language: @language, fluency_level: 0)
+        post graphql_path, params: { query: query(user_id: @user.id, language_id: @language.id, fluency_level: 0) }
+
+        parsed = JSON.parse(response.body, symbolize_names: true)
+
+        expect(parsed[:errors][0][:message]).to eq('User already has this language and fluency level')
+
+        expect(UserLanguage.all.count).to eq(1)
+      end
+
       def query(language_id:, user_id:, fluency_level:)
         <<~GQL
           mutation {

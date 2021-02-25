@@ -6,7 +6,7 @@ module Mutations
 
       def resolve(params:)
         availability_params = Hash params
-        return handle_no_languages_error if User.find(availability_params[:user_id]).user_languages.empty?
+        return handle_no_languages_error unless User.find(availability_params[:user_id]).user_languages.exists?
 
         availability = Availability.create(availability_params)
         schedule_pairing(availability) if availability
