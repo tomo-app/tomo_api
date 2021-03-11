@@ -295,6 +295,27 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
         ```
       </details><br>
 
+  - **Authenticate**: get a user based on an authentic email/password
+    - Type: [User](#user)
+    - Argument: 
+      ```
+      argument :email, STRING, required: true
+      argument :password, STRING, required: true
+      ```
+    - <details>
+        <summary>Example request</summary>
+
+        ```
+        {
+          authenticate(email: "Jim@gmail.com", password: "1234") {
+            id
+            username
+            email
+          }
+        }
+        ```
+      </details><br>
+      
   - **Create User**: sign up a new user
     - Type: [User](#user)
     - Arguments: 
