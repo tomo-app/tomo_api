@@ -39,8 +39,10 @@ module Types
     
     def authenticate(email:, password:)
       user = User.find_by(email: email)
-      if user
-        return user if user.authenticate(password)
+      if user && user.authenticate(password)
+        user
+      else
+        GraphQL::ExecutionError.new('Incorrect email and/or password')
       end
     end
 

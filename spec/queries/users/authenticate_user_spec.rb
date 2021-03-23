@@ -19,12 +19,12 @@ module Queries
     end
 
     it 'cannot authenticate a user with incorrect credentials' do
-      user = create :user
+      user = create(:user)
       post '/graphql', params: { query: query(email: user.email, password: 'wrong') }
 
       parsed = JSON.parse(response.body, symbolize_names: true)
 
-      expect(parsed[:data]).to eq(nil)
+      expect(parsed[:errors][0][:message]).to eq('Incorrect email and/or password')
     end
 
     def query(email:, password:)
