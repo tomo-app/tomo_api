@@ -32,7 +32,7 @@ module Types
       User.find(id)
     end
 
-    field :authenticate, Types::UserType, null: false, description: 'Returns a users id if email/password are correct' do
+    field :authenticate, Types::UserType, null: false, description: 'Returns a user if email/password are correct' do
       argument :email, String, required: true
       argument :password, String, required: true
     end

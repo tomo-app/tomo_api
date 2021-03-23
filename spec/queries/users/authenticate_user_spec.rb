@@ -3,7 +3,7 @@ require 'rails_helper'
 module Queries
   RSpec.describe Types::QueryType, type: :request do
     it 'can authenticate a user with correct credentials' do
-      user = create :user
+      user = create(:user)
       post '/graphql', params: { query: query(email: user.email, password: user.password) }
 
       parsed = JSON.parse(response.body, symbolize_names: true)
