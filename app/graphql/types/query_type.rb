@@ -32,6 +32,20 @@ module Types
       User.find(id)
     end
 
+    field :authenticate, Types::UserType, null: false, description: 'Returns a user if email/password are correct' do
+      argument :email, String, required: true
+      argument :password, String, required: true
+    end
+    
+    def authenticate(email:, password:)
+      user = User.find_by(email: email)
+      if user && user.authenticate(password)
+        user
+      else
+        GraphQL::ExecutionError.new('Incorrect email and/or password')
+      end
+    end
+
     # ----- pairings -----
     field :get_pairings, [Types::PairingType], null: false, description: 'Returns all pairings for a user by id' do
       argument :user_id, ID, required: true
