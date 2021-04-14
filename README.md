@@ -1,6 +1,6 @@
 <img src="app/assets/images/logo.png" width="200"><br>
 
-![rails-badge](https://img.shields.io/badge/Rails-6.1.0-informational?style=flat-square) ![ruby-badge](https://img.shields.io/badge/Ruby-2.7.2-informational?style=flat-square) ![build-badge](https://img.shields.io/travis/tomo-app/tomo_api/main?style=flat-square) ![closed-pr-badge](https://img.shields.io/github/issues-pr-closed-raw/tomo-app/tomo_api?style=flat-square)
+![rails-badge](https://img.shields.io/badge/Rails-6.1.0-informational?style=flat-square) ![ruby-badge](https://img.shields.io/badge/Ruby-3.0.1-informational?style=flat-square) ![build-badge](https://img.shields.io/travis/tomo-app/tomo_api/main?style=flat-square) ![closed-pr-badge](https://img.shields.io/github/issues-pr-closed-raw/tomo-app/tomo_api?style=flat-square)
 
 This GraphQL on Rails API serves queries and mutations to Tomo, an application that allows language learners to schedule anonymous language exchange sessions without the hassles of coordinating a specific date and time. 
 
@@ -25,7 +25,7 @@ Stack: Rails, GraphQL, RSpec, Travis CI, Heroku
 
 ## Local Setup
 ### Prerequisites:
-- Ruby 2.7.2
+- Ruby 3.0.1
 - Rails 6.1
 
 ### Install gems and setup database:
